@@ -1,0 +1,38 @@
+<html>
+  <head>
+  </head>
+  <body>
+    {% for pdef in piqdef %}
+    {% with def=pdef.def %}
+      {% if not def.name %}
+        {% comment %}
+          <div><strong>Error:</strong> {{ pdef }}</div>
+        {% endcomment %}
+
+      {% else %}
+        <h2 id="{{ pdef.def.name }}">{{ pdef.def.name }}</h2>
+        {{ pdef.piqi_type }}
+        {% ifequal pdef.piqi_type "record" %}
+          {{ def.field }}
+          <ul>
+          {% for field in def.field %}
+          <li>
+            <strong>{% firstof field.name field.type.name %}</strong>
+            (<a href="#{{field.type.name}}">{{ field.type.name }}</a>)
+            {% if field.default %}
+              <em>Default: {{ field.default.value }}</em>
+            {% endif %}
+          </li>
+          {% endfor %}
+          </ul>
+        {% endifequal %}
+      {% endif %}
+    {% endwith %}
+    {% endfor %}
+
+    <hr />
+    <pre>{{ piqdef }}</pre>
+    <hr />
+    <pre>{{ spec }}</pre>
+  </body>
+</html>

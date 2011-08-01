@@ -1,0 +1,5 @@
+{application, smk_docs, [
+  {description, "Generates Smarkets API Documentation"},
+  {vsn, "0"},
+  {modules, []}
+]}.
