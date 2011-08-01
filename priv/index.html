@@ -1,5 +1,6 @@
 <html>
   <head>
+    <link rel="stylesheet" type="text/css" href="style.css" />
   </head>
   <body>
     <h1>Smarkets Streaming API Documentation</h1>
@@ -11,22 +12,42 @@
         {% endcomment %}
 
       {% else %}
-        <h2 id="{{ pdef.def.name }}">{{ pdef.def.name }}</h2>
-        {{ pdef.piqi_type }}
+        <h2 id="{{ def.name }}">{{ def.name }}</h2>
+        <span class="piqi_type">{{ pdef.piqi_type }}</span>
+        {% ifequal pdef.piqi_type "list" %}
+            <span class="type"><a href="#{{def.type.name}}">{{ def.type.name }}</a></span>
+        {% endifequal %}
+
+        {% ifequal pdef.piqi_type "alias" %}
+            <span class="type"><a href="#{{def.type.name}}">{{ def.type.name }}</a></span>
+        {% endifequal %}
+
         {% ifequal pdef.piqi_type "record" %}
-          {{ def.field }}
           <ul>
           {% for field in def.field %}
           <li>
-            <strong>{% firstof field.name field.type.name %}</strong>
-            (<a href="#{{field.type.name}}">{{ field.type.name }}</a>)
+            <span class="name">{% firstof field.name field.type.name %}</span>
+            <span class="type"><a href="#{{field.type.name}}">{{ field.type.name }}</a></span>
             {% if field.default %}
-              <em>Default: {{ field.default.value }}</em>
+              <span class="default">Default: {{ field.default.value }}</span>
             {% endif %}
           </li>
           {% endfor %}
           </ul>
         {% endifequal %}
+
+        {% if pdef.piqi_type == "variant" or pdef.piqi_type == "enum"  %}
+          <ul>
+          {% for option in def.option %}
+          <li>
+            <span class="name">{% firstof option.name option.type.name %}</span>
+            {% if option.type %}
+            <span class="type"><a href="#{{option.type.name}}">{{ option.type.name }}</a></span>
+            {% endif %}
+          </li>
+          {% endfor %}
+          </ul>
+        {% endif%}
       {% endif %}
     {% endwith %}
     {% endfor %}

@@ -2,3 +2,5 @@ build
 deps
 priv/*.json
 ebin
+.DS_Store
+

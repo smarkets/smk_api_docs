@@ -1,0 +1,11 @@
+
+
+.default {
+  font-style: italic;
+}
+.type:before {
+  content: "(";
+}
+.type:after {
+  content: ")";
+}

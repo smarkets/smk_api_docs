@@ -26,6 +26,7 @@ build(Dir) ->
   ],
   {ok, Index} = index_tpl:render(Ctx),
   file:write_file(j(Dir,"index.html"), Index),
+  file:copy(priv_dir("style.css"), j(Dir,"style.css")),
   ok.
 
 extend(Extend, Defs) ->
@@ -54,6 +55,19 @@ extend(record, [{name,field},{value,Value}], Def) ->
   lists:keyreplace(def, 1, Def,
     {def, lists:keyreplace(field, 1, DefDef,
       {field, NewFields}
+    )}
+  );
+extend(variant, [{name,option},{value,Value}], Def) ->
+  [{list,[
+        [{named,[{name,type},{value,[{word,Type}]}]}]
+      ]}] = Value,
+  io:format("Extended Option ~p~n", [Type]),
+  DefDef = proplists:get_value(def, Def),
+  Options = proplists:get_value(option, DefDef),
+  NewOptions = Options ++ [[{type,[{name,Type}]}]],
+  lists:keyreplace(def, 1, Def,
+    {def, lists:keyreplace(option, 1, DefDef,
+      {option, NewOptions}
     )}
   );
 
@@ -90,6 +104,26 @@ priv_dir(File) ->
 atomize([{<<"record">>,Def}]) ->
   [
     {piqi_type,record},
+    {def, atomize(Def)}
+  ];
+atomize([{<<"variant">>,Def}]) ->
+  [
+    {piqi_type,variant},
+    {def, atomize(Def)}
+  ];
+atomize([{<<"enum">>,Def}]) ->
+  [
+    {piqi_type,enum},
+    {def, atomize(Def)}
+  ];
+atomize([{<<"alias">>,Def}]) ->
+  [
+    {piqi_type,alias},
+    {def, atomize(Def)}
+  ];
+atomize([{<<"list">>,[{<<"name">>,_},{<<"type">>,_}]=Def}]) ->
+  [
+    {piqi_type,list},
     {def, atomize(Def)}
   ];
 
