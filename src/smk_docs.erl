@@ -39,7 +39,6 @@ extend(Name, Extend, Def, Defs) ->
   replace(Name, lists:foldl(fun extend_any/2, Def, Any),Defs).
 
 extend_any([{named, Named}], [{piqi_type,Type}|_] = Def) ->
-  io:format("Def ~p~n", [Def]),
   extend(Type, Named, Def);
 
 extend_any(_, Def) -> Def.
@@ -52,8 +51,6 @@ extend(record, [{name,field},{value,Value}], Def) ->
   DefDef = proplists:get_value(def, Def),
   Fields = proplists:get_value(field, DefDef),
   NewFields = Fields ++ [[{name,Name},{type,[{name,Type}]}]],
-  io:format("OFields ~p~n", [Fields]),
-  io:format("NFields ~p~n", [NewFields]),
   lists:keyreplace(def, 1, Def,
     {def, lists:keyreplace(field, 1, DefDef,
       {field, NewFields}
