@@ -14,20 +14,17 @@
       {% else %}
         <h2 id="{{ def.name }}">{{ def.name }}</h2>
         <span class="piqi_type">{{ pdef.piqi_type }}</span>
-        {% ifequal pdef.piqi_type "list" %}
-            <span class="type"><a href="#{{def.type.name}}">{{ def.type.name }}</a></span>
-        {% endifequal %}
 
-        {% ifequal pdef.piqi_type "alias" %}
-            <span class="type"><a href="#{{def.type.name}}">{{ def.type.name }}</a></span>
-        {% endifequal %}
+        {% if pdef.piqi_type=="list" or pdef.piqi_type=="alias" %}
+          {% type name=def.type.name %}
+        {% endif %}
 
         {% ifequal pdef.piqi_type "record" %}
           <ul>
           {% for field in def.field %}
           <li>
             <span class="name">{% firstof field.name field.type.name %}</span>
-            <span class="type"><a href="#{{field.type.name}}">{{ field.type.name }}</a></span>
+            {% type name=field.type.name %}
             {% if field.default %}
               <span class="default">Default: {{ field.default.value }}</span>
             {% endif %}
@@ -42,7 +39,7 @@
           <li>
             <span class="name">{% firstof option.name option.type.name %}</span>
             {% if option.type %}
-            <span class="type"><a href="#{{option.type.name}}">{{ option.type.name }}</a></span>
+              {% type name=option.type.name %}
             {% endif %}
           </li>
           {% endfor %}

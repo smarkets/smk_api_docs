@@ -6,7 +6,9 @@ build(Dir) ->
   {ok, EtoBin} = file:read_file(priv_dir("eto.json")),
   {ok, SetoBin} = file:read_file(priv_dir("seto.json")),
 
-  erlydtl:compile(priv_dir("index.html"), index_tpl),
+  erlydtl:compile(priv_dir("index.html"), index_tpl, [
+      {custom_tags_dir, priv_dir()}
+    ]),
 
   SetoSpec = atomize(jsx:json_to_term(SetoBin)),
   SetoPiqDef = proplists:get_value(piqdef, SetoSpec),
@@ -61,7 +63,6 @@ extend(variant, [{name,option},{value,Value}], Def) ->
   [{list,[
         [{named,[{name,type},{value,[{word,Type}]}]}]
       ]}] = Value,
-  io:format("Extended Option ~p~n", [Type]),
   DefDef = proplists:get_value(def, Def),
   Options = proplists:get_value(option, DefDef),
   NewOptions = Options ++ [[{type,[{name,Type}]}]],
@@ -88,18 +89,18 @@ replace(Name, Def, [H|T], Acc) ->
   replace(Name, Def, T, [H|Acc]).
    
 
+priv_dir() ->
+  case code:priv_dir(smk_docs) of
+    {error, _} ->
+      filename:absname(
+        filename:join([
+            filename:dirname(code:which(?MODULE)),
+            "..", "priv"]));
+    Priv ->
+      Priv
+  end.
 priv_dir(File) ->
-  filename:join(
-    case code:priv_dir(smk_docs) of
-      {error, _} ->
-        filename:absname(
-          filename:join([
-              filename:dirname(code:which(?MODULE)),
-              "..", "priv"]));
-      Priv ->
-        Priv
-    end,
-    File).
+  filename:join(priv_dir(), File).
 
 atomize([{<<"record">>,Def}]) ->
   [
