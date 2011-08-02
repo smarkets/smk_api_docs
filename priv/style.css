@@ -67,6 +67,11 @@ table.passing tr.odd {
   background: #CAFF70;
   border: 1px solid #A2CD5A;
 }
+.seq.incorrect {
+  background: #CD0000;
+  border: 1px solid #8B0000;
+  color: white;
+}
 .encoded,
 .direction {
   font-size: 0.8em;

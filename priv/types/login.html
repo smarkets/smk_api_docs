@@ -1,0 +1,143 @@
+<p>
+An example <span class="type">login</span> <span class="type">payload</span> for first establisting a session is described in the <a href="#seq" class="type">seq</a> type above.
+</p>
+
+<p>
+To resume a <a href="#session" class="type">session</a> the field for this in the <span class="type">login</span> <span class="type">payload</span> needs to be specified with the identifier originally returned in the incoming <a href="#login-response" class="type">login-response</a> within the <a href="#message" class="type">message</a> with <a href="#seq">seq</a> <span class="seq">1</span>. The <a href="#message" class="type">message</a> wrapping the <span class="type">login</span> <span class="type">payload</span> also needs to have the outgoing <a href="#seq">seq</a> that your application was previously going to send next before the connection was dropped. Your incoming sequence number also needs to be as it would have been before the connection was dropped so that any messages sent to your application from Smarkets while the connection was down can be <a href="#replay">replayed</a>. This is done by comparing the sequence of the resulting <a href="#login-response" class="type">login-response</a> and the one your application is expecting to be next. Smarkets will do the same by comparing the sequence of your login payload with what it expects to be the next message and may also send a <a href="#replay">replayed</a> in your application's direction.
+</p>
+
+<table class="passing">
+  <thead>
+    <tr>
+      <th class="server" colspan="3">Server</th>
+      <th class="direction"></th>
+      <th class="client" colspan="3">Client</th>
+    </tr>
+    <tr>
+      <th>In</th>
+      <th>Out</th>
+      <th>Send/Receive</th>
+      <th class="direction">&lt;--&gt;</th>
+      <th>Send/Receive</th>
+      <th>Out</th>
+      <th>In</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="init">
+      <td><span class="seq">20</span></td>
+      <td><span class="seq">78</span></td>
+      <td class="encoded"></td>
+      <td class="direction">-</td>
+      <td class="encoded"></td>
+      <td><span class="seq">78</span></td>
+      <td><span class="seq">20</span></td>
+    </tr>
+    <tr class="odd">
+      <td><span class="seq">20</span></td>
+      <td><span class="seq">78</span></td>
+      <td class="encoded"></td>
+      <td class="direction">&lt;-</td>
+      <td class="encoded">message{seq=20, payload=login{session=…}}</td>
+      <td><span class="seq changed">21</span></td>
+      <td><span class="seq">78</span></td>
+    </tr>
+    <tr>
+      <td><span class="seq changed">21</span></td>
+      <td><span class="seq">78</span></td>
+      <td class="encoded">message{seq=20, payload=login{session=…}}</td>
+      <td class="direction">&lt;-</td>
+      <td class="encoded"></td>
+      <td><span class="seq">21</span></td>
+      <td><span class="seq">78</span></td>
+    </tr>
+    <tr class="odd">
+      <td><span class="seq">21</span></td>
+      <td><span class="seq changed">79</span></td>
+      <td class="encoded">message{seq=78, payload=login_response{…}}</td>
+      <td class="direction">-&gt;</td>
+      <td class="encoded"></td>
+      <td><span class="seq">21</span></td>
+      <td><span class="seq">78</span></td>
+    </tr>
+    <tr>
+      <td><span class="seq">21</span></td>
+      <td><span class="seq">79</span></td>
+      <td class="encoded"></td>
+      <td class="direction">-&gt;</td>
+      <td class="encoded">message{seq=78, payload=login_response{…}}</td>
+      <td><span class="seq">21</span></td>
+      <td><span class="seq changed">79</span></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>
+Here is an example of when the server has allocated a number of messages to be sent to the client's session while it was disconnected:
+</p>
+
+<table class="passing">
+  <thead>
+    <tr>
+      <th class="server" colspan="3">Server</th>
+      <th class="direction"></th>
+      <th class="client" colspan="3">Client</th>
+    </tr>
+    <tr>
+      <th>In</th>
+      <th>Out</th>
+      <th>Send/Receive</th>
+      <th class="direction">&lt;--&gt;</th>
+      <th>Send/Receive</th>
+      <th>Out</th>
+      <th>In</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="init">
+      <td><span class="seq">40</span></td>
+      <td><span class="seq">58</span></td>
+      <td class="encoded"></td>
+      <td class="direction">-</td>
+      <td class="encoded"></td>
+      <td><span class="seq">40</span></td>
+      <td><span class="seq">54</span></td>
+    </tr>
+    <tr class="odd">
+      <td><span class="seq">40</span></td>
+      <td><span class="seq">58</span></td>
+      <td class="encoded"></td>
+      <td class="direction">&lt;-</td>
+      <td class="encoded">message{seq=40, payload=login{session=…}}</td>
+      <td><span class="seq changed">41</span></td>
+      <td><span class="seq">54</span></td>
+    </tr>
+    <tr>
+      <td><span class="seq changed">41</span></td>
+      <td><span class="seq">58</span></td>
+      <td class="encoded">message{seq=40, payload=login{session=…}}</td>
+      <td class="direction">&lt;-</td>
+      <td class="encoded"></td>
+      <td><span class="seq">41</span></td>
+      <td><span class="seq">54</span></td>
+    </tr>
+    <tr class="odd">
+      <td><span class="seq">41</span></td>
+      <td><span class="seq changed">59</span></td>
+      <td class="encoded">message{seq=59, payload=login_response{…}}</td>
+      <td class="direction">-&gt;</td>
+      <td class="encoded"></td>
+      <td><span class="seq">41</span></td>
+      <td><span class="seq">54</span></td>
+    </tr>
+    <tr>
+      <td><span class="seq">41</span></td>
+      <td><span class="seq">59</span></td>
+      <td class="encoded"></td>
+      <td class="direction">-&gt;</td>
+      <td class="encoded">message{seq=78, payload=login_response{…}}</td>
+      <td><span class="seq">41</span></td>
+      <td><span class="seq incorrect">54</span></td>
+    </tr>
+  </tbody>
+</table>
