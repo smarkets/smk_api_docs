@@ -111,7 +111,7 @@ extend(variant, [{name,option},{value,Value}], Def) ->
 extend(_, _, Def) -> Def.
 
 find(_, []) -> undefined;
-find(Name, [[_,{def,[{name,Name}|_]}]=H|_]) ->
+find(Name, [[_,{def,[{name,Name}|_]}|_]=H|_]) ->
   H;
 find(Name, [_|T]) ->
   find(Name, T).
@@ -119,7 +119,7 @@ find(Name, [_|T]) ->
 replace(Name, Def, Defs) ->
   replace(Name, Def, Defs, []).
 
-replace(Name, Def, [[_,{def,[{name,Name}|_]}]|T], Acc) ->
+replace(Name, Def, [[_,{def,[{name,Name}|_]}|_]|T], Acc) ->
   lists:reverse(Acc) ++ [Def|T];
 replace(Name, Def, [H|T], Acc) ->
   replace(Name, Def, T, [H|Acc]).
@@ -152,8 +152,8 @@ atomize([{Type,Def}]) when Type =:= <<"alias">>
                    orelse Type =:= <<"variant">> ->
   [
     {piqi_type,atomize(Type)},
-    {description,description(Def)},
-    {def, atomize(Def)}
+    {def, atomize(Def)},
+    {description,description(Def)}
   ];
 atomize([{<<"list">>,[{<<"name">>,_},{<<"type">>,_}]=Def}]) ->
   [

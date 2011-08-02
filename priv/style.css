@@ -17,13 +17,19 @@ h3 span {
   font-size: 0.8em;
   font-weight: normal;
 }
+.name,
 .type,
 .type a,
 .type span,
 .seq,
 .encoded,
-.direction {
+.direction,
+.field,
+code {
   font-family: Consolas, "Droid Sans Mono", Monaco, Courier, monospace;
+}
+code, .field, .type {
+  background: #FDFCDC;
 }
 .seq {
   background: #FCF6CF;
