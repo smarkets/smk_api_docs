@@ -3,6 +3,9 @@ body, td, a[rel="bookmark"] {
   font-size: 13px;
   font-weight: normal;
 }
+p {
+  line-height: 1.3em;
+}
 .def {
   border-top: 1px solid #ccc;
 }
@@ -46,6 +49,9 @@ code, .field, .type {
   font-style: italic;
 }
 
+table.passing {
+  margin: 1em auto;
+}
 table.passing th.server,
 table.passing th.client {
   font-weight: bold;
@@ -83,4 +89,10 @@ table.passing tr.odd {
   border-right: 1px;
   border-style: solid;
   border-color: #ccc;
+}
+.left {
+  text-align: left !important;
+}
+.right {
+  text-align: right !important;
 }

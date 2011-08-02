@@ -17,7 +17,7 @@ To resume a <a href="#session" class="type">session</a> the field for this in th
       <th>In</th>
       <th>Out</th>
       <th>Send/Receive</th>
-      <th class="direction">&lt;--&gt;</th>
+      <th class="direction">&lt;&nbsp;&nbsp;&gt;</th>
       <th>Send/Receive</th>
       <th>Out</th>
       <th>In</th>
@@ -37,7 +37,7 @@ To resume a <a href="#session" class="type">session</a> the field for this in th
       <td><span class="seq">20</span></td>
       <td><span class="seq">78</span></td>
       <td class="encoded"></td>
-      <td class="direction">&lt;-</td>
+      <td class="direction left">&lt;</td>
       <td class="encoded">message{seq=20, payload=login{session=…}}</td>
       <td><span class="seq changed">21</span></td>
       <td><span class="seq">78</span></td>
@@ -46,7 +46,7 @@ To resume a <a href="#session" class="type">session</a> the field for this in th
       <td><span class="seq changed">21</span></td>
       <td><span class="seq">78</span></td>
       <td class="encoded">message{seq=20, payload=login{session=…}}</td>
-      <td class="direction">&lt;-</td>
+      <td class="direction left">&lt;</td>
       <td class="encoded"></td>
       <td><span class="seq">21</span></td>
       <td><span class="seq">78</span></td>
@@ -55,7 +55,7 @@ To resume a <a href="#session" class="type">session</a> the field for this in th
       <td><span class="seq">21</span></td>
       <td><span class="seq changed">79</span></td>
       <td class="encoded">message{seq=78, payload=login_response{…}}</td>
-      <td class="direction">-&gt;</td>
+      <td class="direction right">&gt;</td>
       <td class="encoded"></td>
       <td><span class="seq">21</span></td>
       <td><span class="seq">78</span></td>
@@ -64,7 +64,7 @@ To resume a <a href="#session" class="type">session</a> the field for this in th
       <td><span class="seq">21</span></td>
       <td><span class="seq">79</span></td>
       <td class="encoded"></td>
-      <td class="direction">-&gt;</td>
+      <td class="direction right">&gt;</td>
       <td class="encoded">message{seq=78, payload=login_response{…}}</td>
       <td><span class="seq">21</span></td>
       <td><span class="seq changed">79</span></td>
@@ -89,7 +89,7 @@ Here is an example of when the server has allocated a number of messages to be s
       <th>In</th>
       <th>Out</th>
       <th>Send/Receive</th>
-      <th class="direction">&lt;--&gt;</th>
+      <th class="direction">&lt;&nbsp;&nbsp;&gt;</th>
       <th>Send/Receive</th>
       <th>Out</th>
       <th>In</th>
@@ -109,7 +109,7 @@ Here is an example of when the server has allocated a number of messages to be s
       <td><span class="seq">40</span></td>
       <td><span class="seq">58</span></td>
       <td class="encoded"></td>
-      <td class="direction">&lt;-</td>
+      <td class="direction left">&lt;</td>
       <td class="encoded">message{seq=40, payload=login{session=…}}</td>
       <td><span class="seq changed">41</span></td>
       <td><span class="seq">54</span></td>
@@ -118,7 +118,7 @@ Here is an example of when the server has allocated a number of messages to be s
       <td><span class="seq changed">41</span></td>
       <td><span class="seq">58</span></td>
       <td class="encoded">message{seq=40, payload=login{session=…}}</td>
-      <td class="direction">&lt;-</td>
+      <td class="direction left">&lt;</td>
       <td class="encoded"></td>
       <td><span class="seq">41</span></td>
       <td><span class="seq">54</span></td>
@@ -127,7 +127,7 @@ Here is an example of when the server has allocated a number of messages to be s
       <td><span class="seq">41</span></td>
       <td><span class="seq changed">59</span></td>
       <td class="encoded">message{seq=58, payload=login_response{…}}</td>
-      <td class="direction">-&gt;</td>
+      <td class="direction right">&gt;</td>
       <td class="encoded"></td>
       <td><span class="seq">41</span></td>
       <td><span class="seq">54</span></td>
@@ -136,7 +136,7 @@ Here is an example of when the server has allocated a number of messages to be s
       <td><span class="seq">41</span></td>
       <td><span class="seq">59</span></td>
       <td class="encoded"></td>
-      <td class="direction">-&gt;</td>
+      <td class="direction right">&gt;</td>
       <td class="encoded">message{seq=78, payload=login_response{…}}</td>
       <td><span class="seq">41</span></td>
       <td><span class="seq incorrect">54</span></td>
@@ -145,7 +145,7 @@ Here is an example of when the server has allocated a number of messages to be s
       <td><span class="seq">41</span></td>
       <td><span class="seq">59</span></td>
       <td class="encoded"></td>
-      <td class="direction">&lt;-</td>
+      <td class="direction left">&lt;</td>
       <td class="encoded">message{seq=41, payload=replay{seq=54}}</td>
       <td><span class="seq changed">42</span></td>
       <td><span class="seq">54</span></td>
@@ -154,7 +154,7 @@ Here is an example of when the server has allocated a number of messages to be s
       <td><span class="seq changed">42</span></td>
       <td><span class="seq">59</span></td>
       <td class="encoded">message{seq=42, payload=replay{seq=54}}</td>
-      <td class="direction">&lt;-</td>
+      <td class="direction left">&lt;</td>
       <td class="encoded"></td>
       <td><span class="seq">42</span></td>
       <td><span class="seq">54</span></td>
@@ -163,7 +163,7 @@ Here is an example of when the server has allocated a number of messages to be s
       <td><span class="seq">42</span></td>
       <td><span class="seq">59</span></td>
       <td class="encoded">message{seq=54, payload=pong, replay=true}</td>
-      <td class="direction">-&gt;</td>
+      <td class="direction right">&gt;</td>
       <td class="encoded"></td>
       <td><span class="seq">42</span></td>
       <td><span class="seq">54</span></td>
@@ -172,7 +172,7 @@ Here is an example of when the server has allocated a number of messages to be s
       <td><span class="seq">42</span></td>
       <td><span class="seq">59</span></td>
       <td class="encoded">message{seq=55, payload=pong, replay=true}</td>
-      <td class="direction">-&gt;</td>
+      <td class="direction right">&gt;</td>
       <td class="encoded"></td>
       <td><span class="seq">42</span></td>
       <td><span class="seq">54</span></td>
@@ -181,7 +181,7 @@ Here is an example of when the server has allocated a number of messages to be s
       <td><span class="seq">42</span></td>
       <td><span class="seq">59</span></td>
       <td class="encoded"></td>
-      <td class="direction">-&gt;</td>
+      <td class="direction right">&gt;</td>
       <td class="encoded">message{seq=54, payload=pong, replay=true}</td>
       <td><span class="seq">42</span></td>
       <td><span class="seq changed">55</span></td>
@@ -190,7 +190,7 @@ Here is an example of when the server has allocated a number of messages to be s
       <td><span class="seq">42</span></td>
       <td><span class="seq">59</span></td>
       <td class="encoded">message{seq=56, payload=pong, replay=true}</td>
-      <td class="direction">-&gt;</td>
+      <td class="direction right">&gt;</td>
       <td class="encoded"></td>
       <td><span class="seq">42</span></td>
       <td><span class="seq">54</span></td>
@@ -199,7 +199,7 @@ Here is an example of when the server has allocated a number of messages to be s
       <td><span class="seq">42</span></td>
       <td><span class="seq">59</span></td>
       <td class="encoded"></td>
-      <td class="direction">-&gt;</td>
+      <td class="direction right">&gt;</td>
       <td class="encoded">message{seq=55, payload=pong, replay=true}</td>
       <td><span class="seq">42</span></td>
       <td><span class="seq changed">56</span></td>
@@ -208,7 +208,7 @@ Here is an example of when the server has allocated a number of messages to be s
       <td><span class="seq">42</span></td>
       <td><span class="seq">59</span></td>
       <td class="encoded"></td>
-      <td class="direction">-&gt;</td>
+      <td class="direction right">&gt;</td>
       <td class="encoded">message{seq=56, payload=pong, replay=true}</td>
       <td><span class="seq">42</span></td>
       <td><span class="seq changed">57</span></td>
@@ -217,7 +217,7 @@ Here is an example of when the server has allocated a number of messages to be s
       <td><span class="seq">42</span></td>
       <td><span class="seq">59</span></td>
       <td class="encoded">message{seq=57, payload=pong, replay=true}</td>
-      <td class="direction">-&gt;</td>
+      <td class="direction right">&gt;</td>
       <td class="encoded"></td>
       <td><span class="seq">42</span></td>
       <td><span class="seq">54</span></td>
@@ -225,8 +225,8 @@ Here is an example of when the server has allocated a number of messages to be s
     <tr>
       <td><span class="seq">42</span></td>
       <td><span class="seq">59</span></td>
-      <td class="encoded">message{seq=58, payload=gapfill, replay=true}</td>
-      <td class="direction">-&gt;</td>
+      <td class="encoded">message{seq=58, payload=<a href="#gapfill" class="type">gapfill</a>, replay=true}</td>
+      <td class="direction right">&gt;</td>
       <td class="encoded"></td>
       <td><span class="seq">42</span></td>
       <td><span class="seq">54</span></td>
@@ -235,7 +235,7 @@ Here is an example of when the server has allocated a number of messages to be s
       <td><span class="seq">42</span></td>
       <td><span class="seq">59</span></td>
       <td class="encoded"></td>
-      <td class="direction">-&gt;</td>
+      <td class="direction right">&gt;</td>
       <td class="encoded">message{seq=57, payload=pong, replay=true}</td>
       <td><span class="seq">42</span></td>
       <td><span class="seq changed">58</span></td>
@@ -244,8 +244,8 @@ Here is an example of when the server has allocated a number of messages to be s
       <td><span class="seq">42</span></td>
       <td><span class="seq">59</span></td>
       <td class="encoded"></td>
-      <td class="direction">-&gt;</td>
-      <td class="encoded">message{seq=58, payload=pong, replay=true}</td>
+      <td class="direction right">&gt;</td>
+      <td class="encoded">message{seq=58, payload=<a href="#gapfill" class="type">gapfill</a>, replay=true}</td>
       <td><span class="seq">42</span></td>
       <td><span class="seq changed">59</span></td>
     </tr>
