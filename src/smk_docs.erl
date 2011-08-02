@@ -58,8 +58,7 @@ build(Dir) ->
   PiqDef = lists:sort(fun(A,B) -> sort(A,B,Order) end, EtoPiqDef ++ SetoPiqDef),
 
   Ctx = [
-    {spec,io_lib:format("~p", [EtoSpec ++ SetoSpec])},
-    {order,order()},
+    {order,?ORDER},
     {piqdef, PiqDef}
   ],
   {ok, Index} = index_tpl:render(Ctx),

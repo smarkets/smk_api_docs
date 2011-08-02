@@ -3,6 +3,54 @@ body, td, a[rel="bookmark"] {
   font-size: 13px;
   font-weight: normal;
 }
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+h1 {
+  font-size: 2em;
+  margin: 0;
+  padding: 0.5em 0.5em;
+  background: #eee;
+}
+h1 a {
+  color: black;
+  text-decoration: none;
+}
+#toc ul {
+  list-style: none;
+  padding: 1em;
+  margin: 0;
+}
+#toc ul li {
+  padding: 0;
+  margin: 0;
+}
+#content {
+  padding: 0 1em 0 0;
+}
+@media screen {
+  body {
+    margin: 4.5em 0 0 0;
+  }
+  body>h1 {
+    position: fixed;
+    top: 0;
+    width: 100%;
+  }
+  body>div#toc {
+    width: 20em;
+    position: fixed;
+    left: 0;
+    top: 4.5em;
+  }
+  body>div#content {
+    margin: 0 0 0 20em;
+    height: 100%;
+    overflow: auto;
+  }
+}
 p {
   line-height: 1.3em;
 }
