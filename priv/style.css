@@ -53,9 +53,11 @@ ol.steps li {
     position: fixed;
     left: 0;
     top: 4.5em;
+    height: 100%;
+    overflow: auto;
   }
   body>div#content {
-    margin: 0 0 0 17em;
+    margin: 0 0 0 18em;
     height: 100%;
     overflow: auto;
   }
