@@ -58,7 +58,7 @@ build(Dir) ->
   PiqDef = lists:sort(fun(A,B) -> sort(A,B,Order) end, EtoPiqDef ++ SetoPiqDef),
 
   Ctx = [
-    {order,?ORDER},
+    {order, [proplists:get_value(name, proplists:get_value(def, DefDef)) || DefDef <- PiqDef]},
     {piqdef, PiqDef}
   ],
   {ok, Index} = index_tpl:render(Ctx),
