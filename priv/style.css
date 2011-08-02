@@ -1,30 +1,72 @@
-body {
+body, td {
   font-family: Arial;
   font-size: 13px;
 }
-
-h2 {
+.def {
+  border-top: 1px solid #ccc;
+}
+h3 {
   font-size: 1.25em;
 }
-h2 .name {
+h3 .name {
+  font-weight: bold;
   font-family: Consolas, "Droid Sans Mono", Monaco, Courier, monospace;
+  font-size: 1em;
 }
-h2 .piqi_type,
-h2 .type {
+h3 span {
   font-size: 0.8em;
   font-weight: normal;
-  margin-left: 0.8em;
 }
-.type {
+.type,
+.type a,
+.type span,
+.seq,
+.encoded,
+.direction {
   font-family: Consolas, "Droid Sans Mono", Monaco, Courier, monospace;
+}
+.seq {
+  background: #FCF6CF;
+  padding: 0 0.1em;
+  margin: -1px;
+  border: 1px solid #DEB887;
+}
+.seq:before {
+  content: "#";
 }
 
 .default {
   font-style: italic;
 }
-.type:before {
-  content: "(";
+
+table.passing th.server,
+table.passing th.client {
+  font-weight: bold;
 }
-.type:after {
-  content: ")";
+table.passing th {
+  font-weight: normal;
+}
+table.passing td {
+  text-align: center;
+}
+table.passing tr {
+  background: white;
+}
+table.passing tr.odd {
+  background: #eee;
+}
+.seq.changed {
+  background: #CAFF70;
+  border: 1px solid #A2CD5A;
+}
+.encoded,
+.direction {
+  font-size: 0.8em;
+}
+.direction {
+  font-weight: bold;
+  border-left: 1px;
+  border-right: 1px;
+  border-style: solid;
+  border-color: #ccc;
 }

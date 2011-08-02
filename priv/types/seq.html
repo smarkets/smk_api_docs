@@ -1,1 +1,74 @@
-This is the description of the seq type
+<p>
+The Smarkets API is based on but not yet a subset of the <a href="http://www.fixprotocol.org/">Financial Information eXchange (FIX) Protocol</a>. The sequence field is the primary part of the FIX protocol that we decided to adopt when implementing this revision of the Smarkets API. It's purpose is to guarantee the order of messages shared between the Smarkets' server and connected clients, and by doing some allows asyncronous message passing and high throughput in both directions.
+</p>
+
+<h4>The life of a session's sequence</h4>
+<p>
+When a connection is first made <a href="#login" class="type">login</a> and <a href="#login-response" class="type">login-response</a> payloads are exhanged, each encapsulated inside a <a href="#message" class="type">message</a>. The <span class="type">seq</span> for both of these message <em>must</em> be <span class="seq">1</span>, this is to estable the starting point for all subsiquent messages in this <a href="#session">session</a>. Both sides of this exchange need to maintain the state of the outgoing and next expected incoming sequence. In this login example the client's outgoing sequence starts at <span class="seq">1</span> and the server's expected incoming sequence is also at <span class="seq">1</span>, so when the message is received it is correctly compared and the message is processed. After the message is sent by the client it increments it's outgoing sequence to <span class="seq">2</span>, and once the server correctly receives message <span class="seq">1</span> it will increment it's expected incoming sequence to <span class="seq">2</span>.
+</p>
+<table class="passing">
+  <thead>
+    <tr>
+      <th class="server" colspan="3">Server</th>
+      <th class="direction"></th>
+      <th class="client" colspan="3">Client</th>
+    </tr>
+    <tr>
+      <th>In</th>
+      <th>Out</th>
+      <th>Send/Receive</th>
+      <th class="direction">&lt;--&gt;</th>
+      <th>Send/Receive</th>
+      <th>Out</th>
+      <th>In</th>
+    </tr>
+
+  </thead>
+  <tbody>
+    <tr class="init">
+      <td><span class="seq">1</span></td>
+      <td><span class="seq">1</span></td>
+      <td class="encoded"></td>
+      <td class="direction">-</td>
+      <td class="encoded"></td>
+      <td><span class="seq">1</span></td>
+      <td><span class="seq">1</span></td>
+    </tr>
+    <tr class="odd">
+      <td><span class="seq">1</span></td>
+      <td><span class="seq">1</span></td>
+      <td class="encoded"></td>
+      <td class="direction">&lt;-</td>
+      <td class="encoded">message{seq=1, payload={login, …}}</td>
+      <td><span class="seq changed">2</span></td>
+      <td><span class="seq">1</span></td>
+    </tr>
+    <tr>
+      <td><span class="seq changed">2</span></td>
+      <td><span class="seq">1</span></td>
+      <td class="encoded">message{seq=1, payload={login, …}}</td>
+      <td class="direction">&lt;-</td>
+      <td class="encoded"></td>
+      <td><span class="seq">2</span></td>
+      <td><span class="seq">1</span></td>
+    </tr>
+    <tr class="odd">
+      <td><span class="seq">2</span></td>
+      <td><span class="seq changed">2</span></td>
+      <td class="encoded">message{seq=1, payload={login_response, …}}</td>
+      <td class="direction">-&gt;</td>
+      <td class="encoded"></td>
+      <td><span class="seq">2</span></td>
+      <td><span class="seq">1</span></td>
+    </tr>
+    <tr>
+      <td><span class="seq">2</span></td>
+      <td><span class="seq">2</span></td>
+      <td class="encoded"></td>
+      <td class="direction">-&gt;</td>
+      <td class="encoded">message{seq=1, payload={login_response, …}}</td>
+      <td><span class="seq">2</span></td>
+      <td><span class="seq changed">2</span></td>
+    </tr>
+  </tbody>
+</table>
