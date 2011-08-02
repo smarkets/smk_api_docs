@@ -42,9 +42,11 @@ h3 span {
 table.passing th.server,
 table.passing th.client {
   font-weight: bold;
+  background: #ddd;
 }
 table.passing th {
   font-weight: normal;
+  background: #eee;
 }
 table.passing td {
   text-align: center;

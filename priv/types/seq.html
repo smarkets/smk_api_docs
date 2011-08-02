@@ -2,9 +2,9 @@
 The Smarkets API is based on but not yet a subset of the <a href="http://www.fixprotocol.org/">Financial Information eXchange (FIX) Protocol</a>. The sequence field is the primary part of the FIX protocol that we decided to adopt when implementing this revision of the Smarkets API. It's purpose is to guarantee the order of messages shared between the Smarkets' server and connected clients, and by doing some allows asyncronous message passing and high throughput in both directions.
 </p>
 
-<h4>The life of a session's sequence</h4>
+<h4>The life of a session sequence</h4>
 <p>
-When a connection is first made <a href="#login" class="type">login</a> and <a href="#login-response" class="type">login-response</a> payloads are exhanged, each encapsulated inside a <a href="#message" class="type">message</a>. The <span class="type">seq</span> for both of these message <em>must</em> be <span class="seq">1</span>, this is to estable the starting point for all subsiquent messages in this <a href="#session">session</a>. Both sides of this exchange need to maintain the state of the outgoing and next expected incoming sequence. In this login example the client's outgoing sequence starts at <span class="seq">1</span> and the server's expected incoming sequence is also at <span class="seq">1</span>, so when the message is received it is correctly compared and the message is processed. After the message is sent by the client it increments it's outgoing sequence to <span class="seq">2</span>, and once the server correctly receives message <span class="seq">1</span> it will increment it's expected incoming sequence to <span class="seq">2</span>.
+When a connection is first made <a href="#login" class="type">login</a> and <a href="#login-response" class="type">login-response</a> payloads are exhanged, each encapsulated inside a <a href="#message" class="type">message</a>. The latter of which includes the unique <a href="#session" class="type">session</a> identifier associated with the current connections incoming and outgoing sequences. The <span class="type">seq</span> for both of these message <em>must</em> be <span class="seq">1</span>, this is to estable the starting point for all subsiquent messages in this <a href="#session">session</a>. Both sides of this exchange need to maintain the state of the outgoing and next expected incoming sequence. In this login example the client's outgoing sequence starts at <span class="seq">1</span> and the server's expected incoming sequence is also at <span class="seq">1</span>, so when the message is received it is correctly compared and the message is processed. After the message is sent by the client it increments it's outgoing sequence to <span class="seq">2</span>, and once the server correctly receives message <span class="seq">1</span> it will increment it's expected incoming sequence to <span class="seq">2</span>.
 </p>
 <table class="passing">
   <thead>
@@ -22,7 +22,6 @@ When a connection is first made <a href="#login" class="type">login</a> and <a h
       <th>Out</th>
       <th>In</th>
     </tr>
-
   </thead>
   <tbody>
     <tr class="init">
@@ -72,3 +71,11 @@ When a connection is first made <a href="#login" class="type">login</a> and <a h
     </tr>
   </tbody>
 </table>
+
+<p>
+This simple example is basically a message and an *ack* style response, but once this initial step has taken place many incoming and outgoing messages can be sent potentially without any message based acknowledgement. Acknowledgement is done by comparing the incoming message's sequence with the expected incoming sequence. If a process in your application performing a state transition based on an incoming message crashes then you want to maintain that you have <em>not</em> processed that sequence number. To do this the expected next incoming sequence number should not be incremented, and when the next message is received it will be incorrect by 1 step. To handle these cases a message with a <a href="#replay" class="type">replay</a> payload is sent.
+</p>
+
+<p>
+<a href="#session" class="type">Sessions</a> can and <em>should</em> be resumed whenever possible, and can be done via a <a href="#login" class="type">login</a> payload with the <a href="#session" class="type">session</a> field specifying the identifier first return by the <a href="#login-response" class="type">login-response</a> when the session was first establisted (the one with seq <span class="seq">1</span>). An example of this can be found in the documentation for <a href="#login" class="type">login</a>.
+</p>
