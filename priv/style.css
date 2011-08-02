@@ -1,4 +1,23 @@
+body {
+  font-family: Arial;
+  font-size: 13px;
+}
 
+h2 {
+  font-size: 1.25em;
+}
+h2 .name {
+  font-family: Consolas, "Droid Sans Mono", Monaco, Courier, monospace;
+}
+h2 .piqi_type,
+h2 .type {
+  font-size: 0.8em;
+  font-weight: normal;
+  margin-left: 0.8em;
+}
+.type {
+  font-family: Consolas, "Droid Sans Mono", Monaco, Courier, monospace;
+}
 
 .default {
   font-style: italic;

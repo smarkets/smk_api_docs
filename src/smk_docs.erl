@@ -2,11 +2,45 @@
 
 -export([build/1]).
 
+-define(ORDER, [
+    message,
+    seq,
+    payload,
+    'login',
+    'login-response',
+    'replay',
+    'market-request',
+    'market-data',
+    'contract-data',
+    'market-subscription',
+    'market-subscribed',
+    'market-unsubscription',
+    'market-unsubscribed',
+    'market-quotes',
+    'contracts-quotes-list',
+    'contract-quotes',
+    'quote-list',
+    'contract-quote',
+    'order-create',
+    'order-accepted',
+    'order-rejected',
+    'order-rejected-reason',
+    'order-executed',
+    'order-cancel',
+    'order-cancelled',
+    'order-cancelled-reason',
+    'order-invalid',
+    'order-invalid-reason-list',
+    'order-invalid-reason',
+    'id-invalid',
+    'transient'
+  ]).
+
 build(Dir) ->
   {ok, EtoBin} = file:read_file(priv_dir("eto.json")),
   {ok, SetoBin} = file:read_file(priv_dir("seto.json")),
 
-  erlydtl:compile(priv_dir("index.html"), index_tpl, [
+  ok = erlydtl:compile(priv_dir("index.html"), index_tpl, [
       {custom_tags_dir, priv_dir()}
     ]),
 
@@ -20,10 +54,12 @@ build(Dir) ->
       proplists:get_value(extend, SetoSpec)
     ),
 
-  PiqDef = EtoPiqDef ++ SetoPiqDef,
+  Order = order(),
+  PiqDef = lists:sort(fun(A,B) -> sort(A,B,Order) end, EtoPiqDef ++ SetoPiqDef),
 
   Ctx = [
     {spec,io_lib:format("~p", [EtoSpec ++ SetoSpec])},
+    {order,order()},
     {piqdef, PiqDef}
   ],
   {ok, Index} = index_tpl:render(Ctx),
@@ -102,24 +138,21 @@ priv_dir() ->
 priv_dir(File) ->
   filename:join(priv_dir(), File).
 
-atomize([{<<"record">>,Def}]) ->
+description([{<<"name">>,Name}|_]) ->
+  File = priv_dir(j("types",<<Name/binary,".html">>)),
+  case file:read_file(File) of
+    {ok, Description} -> Description;
+    _ -> ""
+  end;
+description(_) -> "".
+
+atomize([{Type,Def}]) when Type =:= <<"alias">>
+                   orelse Type =:= <<"enum">>
+                   orelse Type =:= <<"record">>
+                   orelse Type =:= <<"variant">> ->
   [
-    {piqi_type,record},
-    {def, atomize(Def)}
-  ];
-atomize([{<<"variant">>,Def}]) ->
-  [
-    {piqi_type,variant},
-    {def, atomize(Def)}
-  ];
-atomize([{<<"enum">>,Def}]) ->
-  [
-    {piqi_type,enum},
-    {def, atomize(Def)}
-  ];
-atomize([{<<"alias">>,Def}]) ->
-  [
-    {piqi_type,alias},
+    {piqi_type,atomize(Type)},
+    {description,description(Def)},
     {def, atomize(Def)}
   ];
 atomize([{<<"list">>,[{<<"name">>,_},{<<"type">>,_}]=Def}]) ->
@@ -140,6 +173,20 @@ atomize({K,V}) when is_binary(K) ->
 atomize(T) when is_binary(T) -> binary_to_atom(T,utf8);
 atomize(T) -> T.
 
-
 j(D,F) -> j([D,F]).
 j(L) -> filename:join(L).
+
+order() ->
+  {L,_} =
+    lists:foldl(
+      fun(Name, {Acc,I}) ->
+        {[{Name,I}|Acc],I+1}
+      end, {[],1}, ?ORDER),
+  lists:reverse(L).
+
+sort(A, B, Order) ->
+  pos(A, Order) < pos(B, Order).
+
+pos(DefDef, Order) ->
+  Name = proplists:get_value(name, proplists:get_value(def, DefDef)),
+  proplists:get_value(Name, Order, 99999).

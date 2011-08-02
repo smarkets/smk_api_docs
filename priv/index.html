@@ -6,46 +6,51 @@
     <h1>Smarkets Streaming API Documentation</h1>
     {% for pdef in piqdef %}
     {% with def=pdef.def %}
-      {% if not def.name %}
-        {% comment %}
-          <div><strong>Error:</strong> {{ pdef }}</div>
-        {% endcomment %}
+    {% if not def.name %}
+    {% comment %}
+    <div><strong>Error:</strong> {{ pdef }}</div>
+    {% endcomment %}
 
-      {% else %}
-        <h2 id="{{ def.name }}">{{ def.name }}</h2>
-        <span class="piqi_type">{{ pdef.piqi_type }}</span>
-
-        {% if pdef.piqi_type=="list" or pdef.piqi_type=="alias" %}
-          {% type name=def.type.name %}
-        {% endif %}
-
-        {% ifequal pdef.piqi_type "record" %}
-          <ul>
-          {% for field in def.field %}
-          <li>
-            <span class="name">{% firstof field.name field.type.name %}</span>
-            {% type name=field.type.name %}
-            {% if field.default %}
-              <span class="default">Default: {{ field.default.value }}</span>
-            {% endif %}
-          </li>
-          {% endfor %}
-          </ul>
-        {% endifequal %}
-
-        {% if pdef.piqi_type == "variant" or pdef.piqi_type == "enum"  %}
-          <ul>
-          {% for option in def.option %}
-          <li>
-            <span class="name">{% firstof option.name option.type.name %}</span>
-            {% if option.type %}
-              {% type name=option.type.name %}
-            {% endif %}
-          </li>
-          {% endfor %}
-          </ul>
-        {% endif%}
+    {% else %}
+    <h2 id="{{ def.name }}">
+      <span class="name">{{ def.name }}</span>
+      <span class="piqi_type">{{ pdef.piqi_type }}</span>
+      {% if pdef.piqi_type=="list" or pdef.piqi_type=="alias" %}
+      {% type name=def.type.name %}
       {% endif %}
+    </h2>
+
+    {% if pdef.description %}
+    <div class="description">{{ pdef.description }}</div>
+    {% endif %}
+
+    {% ifequal pdef.piqi_type "record" %}
+    <ul>
+      {% for field in def.field %}
+      <li>
+      <span class="name">{% firstof field.name field.type.name %}</span>
+      {% type name=field.type.name %}
+      {% if field.default %}
+      <span class="default">Default: {{ field.default.value }}</span>
+      {% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+    {% endifequal %}
+
+    {% if pdef.piqi_type == "variant" or pdef.piqi_type == "enum"  %}
+    <ul>
+      {% for option in def.option %}
+      <li>
+      <span class="name">{% firstof option.name option.type.name %}</span>
+      {% if option.type %}
+      {% type name=option.type.name %}
+      {% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif%}
+    {% endif %}
     {% endwith %}
     {% endfor %}
 
@@ -53,5 +58,5 @@
     <pre>{{ piqdef }}</pre>
     <hr />
     <pre>{{ spec }}</pre>
-  </body>
-</html>
+    </body>
+  </html>
