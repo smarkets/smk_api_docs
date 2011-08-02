@@ -1,0 +1,19 @@
+<p>
+When the incoming <a href="#message" class="type">message</a>'s <a href="#seq" class="type">sequence</a> is <em>greater</em> than the one the server or your application is expecting then a <span class="type">replay</span> <a href="#payload" class="type">payload</a> needs to be sent to fill in the gap and bring that side in line with the other. An example of this can be found in the description of <a href="#login" class="type">login</a>. The <a href="#seq" class="type">seq</a> for <span class="type">replay</span> should not be confused with the <a href="#seq" class="type">seq</a> for the <a href="#message" class="type">message</a> containing this <a href="#payload" class="type">payload</a>. The <a href="#seq" class="type">seq</a> here needs to be the sequence that is being requested for playback.
+<p>
+
+<p>
+When receiving a <a href="#message" class="type">message</a> with a <span class="type">replay</span> <a href="#payload" class="type">payload</a> every message from the sequence inside the <span class="type">replay</span> <span class="type">payload</span> upwards should be resent to the other side of the connection with their message sequence entact and <span class="field">replay</span> set to <code>true</code>. Both the server and clients need to do this.
+</p>
+
+<p>
+A number of message payloads <em>should not</em> be re-sent and instead replaced with <span class="type">gapfill</span>:
+</p>
+<ul>
+  <li><a href="#login" class="type">login</a></li>
+  <li><a href="#login-response" class="type">login-response</a></li>
+  <li><a href="#replay" class="type">replay</a></li>
+</ul>
+<p>
+An example of this can be seen when <a href="#login-replay">resuming a session</a> for server outgoing sequence <span class="seq">58</span> which was originally a <span class="type">login-response</span>.
+</p>

@@ -1,0 +1,11 @@
+<p>
+This is sent back to a client when the server has successfully created or resumed a <a href="#session" class="type">session</a> in response to a <a href="#login" class="type">login</a>. The <a href="#session" class="type">session</a> is a unique identifier for the current connection's session and should be associated with the incoming and outgoing sequences of your application.
+</p>
+
+<p>
+The sequence of the <a href="#message" class="type">message</a> encapsulating this should be checked and handled in the way described in the <a href="#login">login</a> section.
+</p>
+
+<p>
+If the sequence of the <a href="#message" class="type">message</a> encapsulating the requested <a href="#login" class="type">login</a> is less than what the server was expecting for a resumed session then the value of the <span class="field">reset</span> field will differ from the sequence the client had sent. You should design your code so that this does not happen, but during debugging it is sometimes necessary to automatically reset a client's outgoing sequence to this value upon receiving it.
+</p>
