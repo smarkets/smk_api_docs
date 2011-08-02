@@ -21,6 +21,7 @@
         {% if pdef.piqi_type=="list" or pdef.piqi_type=="alias" %}
         {% type name=def.type.name %}
         {% endif %}
+        <a href="#{{ def.name }}" rel="bookmark">permalink</a>
       </h4>
 
       {% ifequal pdef.piqi_type "record" %}

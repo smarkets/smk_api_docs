@@ -1,6 +1,7 @@
-body, td {
+body, td, a[rel="bookmark"] {
   font-family: Arial;
   font-size: 13px;
+  font-weight: normal;
 }
 .def {
   border-top: 1px solid #ccc;

@@ -72,8 +72,10 @@ To resume a <a href="#session" class="type">session</a> the field for this in th
   </tbody>
 </table>
 
+<h4 id="login-replay">Requesting replay after resuming a session <a href="#login-replay" rel="bookmark">permalink</a></h4>
+
 <p>
-Here is an example of when the server has allocated a number of messages to be sent to the client's session while it was disconnected:
+Here is an example of when the server has allocated a number of messages to be sent to the client's session while it was disconnected. The resulting replayed message sending and receiving has been interleaved to show the asynchronous nature of message passing (more than one can be sent before 1 is received).
 </p>
 
 <table class="passing">
@@ -124,7 +126,7 @@ Here is an example of when the server has allocated a number of messages to be s
     <tr class="odd">
       <td><span class="seq">41</span></td>
       <td><span class="seq changed">59</span></td>
-      <td class="encoded">message{seq=59, payload=login_response{…}}</td>
+      <td class="encoded">message{seq=58, payload=login_response{…}}</td>
       <td class="direction">-&gt;</td>
       <td class="encoded"></td>
       <td><span class="seq">41</span></td>
@@ -138,6 +140,114 @@ Here is an example of when the server has allocated a number of messages to be s
       <td class="encoded">message{seq=78, payload=login_response{…}}</td>
       <td><span class="seq">41</span></td>
       <td><span class="seq incorrect">54</span></td>
+    </tr>
+    <tr>
+      <td><span class="seq">41</span></td>
+      <td><span class="seq">59</span></td>
+      <td class="encoded"></td>
+      <td class="direction">&lt;-</td>
+      <td class="encoded">message{seq=41, payload=replay{seq=54}}</td>
+      <td><span class="seq changed">42</span></td>
+      <td><span class="seq">54</span></td>
+    </tr>
+    <tr>
+      <td><span class="seq changed">42</span></td>
+      <td><span class="seq">59</span></td>
+      <td class="encoded">message{seq=42, payload=replay{seq=54}}</td>
+      <td class="direction">&lt;-</td>
+      <td class="encoded"></td>
+      <td><span class="seq">42</span></td>
+      <td><span class="seq">54</span></td>
+    </tr>
+    <tr>
+      <td><span class="seq">42</span></td>
+      <td><span class="seq">59</span></td>
+      <td class="encoded">message{seq=54, payload=pong, replay=true}</td>
+      <td class="direction">-&gt;</td>
+      <td class="encoded"></td>
+      <td><span class="seq">42</span></td>
+      <td><span class="seq">54</span></td>
+    </tr>
+    <tr>
+      <td><span class="seq">42</span></td>
+      <td><span class="seq">59</span></td>
+      <td class="encoded">message{seq=55, payload=pong, replay=true}</td>
+      <td class="direction">-&gt;</td>
+      <td class="encoded"></td>
+      <td><span class="seq">42</span></td>
+      <td><span class="seq">54</span></td>
+    </tr>
+    <tr>
+      <td><span class="seq">42</span></td>
+      <td><span class="seq">59</span></td>
+      <td class="encoded"></td>
+      <td class="direction">-&gt;</td>
+      <td class="encoded">message{seq=54, payload=pong, replay=true}</td>
+      <td><span class="seq">42</span></td>
+      <td><span class="seq changed">55</span></td>
+    </tr>
+    <tr>
+      <td><span class="seq">42</span></td>
+      <td><span class="seq">59</span></td>
+      <td class="encoded">message{seq=56, payload=pong, replay=true}</td>
+      <td class="direction">-&gt;</td>
+      <td class="encoded"></td>
+      <td><span class="seq">42</span></td>
+      <td><span class="seq">54</span></td>
+    </tr>
+    <tr>
+      <td><span class="seq">42</span></td>
+      <td><span class="seq">59</span></td>
+      <td class="encoded"></td>
+      <td class="direction">-&gt;</td>
+      <td class="encoded">message{seq=55, payload=pong, replay=true}</td>
+      <td><span class="seq">42</span></td>
+      <td><span class="seq changed">56</span></td>
+    </tr>
+    <tr>
+      <td><span class="seq">42</span></td>
+      <td><span class="seq">59</span></td>
+      <td class="encoded"></td>
+      <td class="direction">-&gt;</td>
+      <td class="encoded">message{seq=56, payload=pong, replay=true}</td>
+      <td><span class="seq">42</span></td>
+      <td><span class="seq changed">57</span></td>
+    </tr>
+    <tr>
+      <td><span class="seq">42</span></td>
+      <td><span class="seq">59</span></td>
+      <td class="encoded">message{seq=57, payload=pong, replay=true}</td>
+      <td class="direction">-&gt;</td>
+      <td class="encoded"></td>
+      <td><span class="seq">42</span></td>
+      <td><span class="seq">54</span></td>
+    </tr>
+    <tr>
+      <td><span class="seq">42</span></td>
+      <td><span class="seq">59</span></td>
+      <td class="encoded">message{seq=58, payload=gapfill, replay=true}</td>
+      <td class="direction">-&gt;</td>
+      <td class="encoded"></td>
+      <td><span class="seq">42</span></td>
+      <td><span class="seq">54</span></td>
+    </tr>
+    <tr>
+      <td><span class="seq">42</span></td>
+      <td><span class="seq">59</span></td>
+      <td class="encoded"></td>
+      <td class="direction">-&gt;</td>
+      <td class="encoded">message{seq=57, payload=pong, replay=true}</td>
+      <td><span class="seq">42</span></td>
+      <td><span class="seq changed">58</span></td>
+    </tr>
+    <tr>
+      <td><span class="seq">42</span></td>
+      <td><span class="seq">59</span></td>
+      <td class="encoded"></td>
+      <td class="direction">-&gt;</td>
+      <td class="encoded">message{seq=58, payload=pong, replay=true}</td>
+      <td><span class="seq">42</span></td>
+      <td><span class="seq changed">59</span></td>
     </tr>
   </tbody>
 </table>
