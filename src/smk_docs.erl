@@ -3,6 +3,7 @@
 -export([build/1]).
 
 -define(ORDER, [
+    frame,
     message,
     seq,
     payload,
