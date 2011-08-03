@@ -10,11 +10,11 @@ body {
 }
 h1 {
   font-size: 1em;
-  margin: 0;
-  padding: 0.5em 0.5em;
+  margin: 0.5em 0 0 0;
+  padding: 0.5em 0.5em 0.5em 1em;
   background: #eee;
-  border-bottom: 1px solid #ccc;
-  border-right: 1px solid #ccc;
+  border: 1px solid #ccc;
+  border-left-width: 0;
   position: absolute;
 }
 h1 a {
@@ -24,7 +24,7 @@ h1 a {
 h2 {
   border-top: 2px solid #638294;
   font-size: 1.5em;
-  margin: 0 0 0.5em 0;
+  margin: 1.5em 0 0.5em 0;
   padding: 0.2em 0.4em;
   background: #7CA2B9;
   color: white;
@@ -40,16 +40,16 @@ ol.steps li {
 }
 #toc ul {
   padding: 0 0 0 1.6em;
-  margin: 4em 0 0 0;
+  margin: 4.5em 0 0 0;
 }
 #toc ul li {
   padding: 0;
-  margin: 0.3em 0 0.3em 0;
+  margin: 0.3em 0 0.5em 0;
 }
 #toc ul ul {
-  padding: 0.2em 0 0 1em;
+  padding: 0.2em 0 0 0.5em;
   margin: 0;
-  font-size: 0.8em;
+  font-size: 0.9em;
 }
 #toc ul ul li {
   padding: 0;
@@ -72,7 +72,7 @@ ol.steps li {
   }
   body>div#content {
     z-index: 100;
-    margin: 0 0 0 15em;
+    margin: 0 0 0 17em;
     height: 100%;
     overflow: auto;
   }
@@ -122,6 +122,9 @@ code pre {
 }
 .field, .type {
   background: #FDFCDC;
+}
+#toc .type {
+  background: transparent;
 }
 .seq {
   background: #FCF6CF;

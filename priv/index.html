@@ -20,7 +20,7 @@
         <li><a href="#framing">Framing &amp; Sending</a></li>
         <li><a href="#code">Downloads &amp; Code</a></li>
         <li>
-          Type Definitions
+          <a href="#defs">Type Definitions</a>
           <ul>
           {% for name in order %}
           <li><a href="#{{ name }}" class="type">{{ name }}</a></li>
@@ -80,6 +80,9 @@ login(Username, Password) ->
       }}
   },
   seto_piqi:gen_payload({sequenced, Payload}).</pre></code>
+      <p>
+      Head to the <a href="#code">Downloads & Code</a> section to grab the Erlang SDK
+      </p>
       
       <h3 id="encode-python">Python</h3>
       <p>
@@ -92,10 +95,16 @@ def login(username, password):
     payload.sequenced.message.login.username = username
     payload.sequenced.message.login.password = password
     return payload.SerializeToString()</pre></code>
+      <p>
+      Head to the <a href="#code">Downloads & Code</a> section to grab the Python SDK
+      </p>
 
       <h3 id="encode-other">Other Languages</h3>
       <p>
       As mentioned in the Erlang and Python examples above, Smarkets' API type definitions are described using <a href="http://piqi.org/">Piqi</a>. With this we can generate a <a href="http://code.google.com/p/protobuf/">Protocol Buffers</a> .proto definition which can then be used to generate code in <a href="http://protobuf.googlecode.com/">Java</a>, <a href="http://protobuf.googlecode.com/">C++</a>, and a <a href="http://code.google.com/p/protobuf/wiki/ThirdPartyAddOns">large list of other languages</a>.
+      </p>
+      <p>
+      Head to the <a href="#code">Downloads & Code</a> section to grab the .piqi and .proto files
       </p>
 
       <h2 id="framing">Framing</h2>
@@ -119,6 +128,7 @@ def login(username, password):
         </li>
       </ul>
 
+      <h2 id="defs">Type Definitions</h2>
       {% for pdef in piqdef %}
       {% with def=pdef.def %}
       {% if not def.name %}

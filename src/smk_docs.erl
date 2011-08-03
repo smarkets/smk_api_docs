@@ -14,13 +14,13 @@
     'market-data',
     'contract-data',
     'market-subscription',
-    'market-subscribed',
     'market-unsubscription',
-    'market-unsubscribed',
+    'market-quotes-request',
     'market-quotes',
     'contracts-quotes-list',
     'contract-quotes',
     'quote-list',
+    'quote',
     'contract-quote',
     'order-create',
     'order-accepted',
@@ -33,8 +33,7 @@
     'order-invalid',
     'order-invalid-reason-list',
     'order-invalid-reason',
-    'id-invalid',
-    'transient'
+    'id-invalid'
   ]).
 
 build(Dir) ->
@@ -158,7 +157,8 @@ atomize([{Type,Def}]) when Type =:= <<"alias">>
 atomize([{<<"list">>,[{<<"name">>,_},{<<"type">>,_}]=Def}]) ->
   [
     {piqi_type,list},
-    {def, atomize(Def)}
+    {def, atomize(Def)},
+    {description,description(Def)}
   ];
 
 atomize({<<"default">>, [{Type,Value}]}) ->
