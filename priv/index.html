@@ -18,6 +18,7 @@
           </ul>
         </li>
         <li><a href="#framing">Framing &amp; Sending</a></li>
+        <li><a href="#code">Downloads &amp; Code</a></li>
         <li>
           Type Definitions
           <ul>
@@ -101,6 +102,22 @@ def login(username, password):
       <p>
 
       </p>
+
+      <h2 id="code">Downloads &amp; Code</h2>
+      <p>
+      To get started with the Smarkets API you'll need to grab the re-built SDKs, but if one isn't available for the language you want to use then you'll need to grab the <em>smk_api_common</em> distribution and use the <a href="http://code.google.com/p/protobuf/">Protocol Buffers</a> .proto definition to generate code for you.
+      </p>
+      <ul>
+        <li><a href="https://github.com/smarkets">Smarkets GitHub Account</a></li>
+        <li>
+          Prebuilt SDKs
+          <ul>
+            <li>Erlang - <a href="#">smk_erlang_sdk-alpha.tar.gz</a></li>
+            <li>Python - <a href="#">smk_python_sdk-alpha.tar.gz</a></li>
+            <li>.piqi and .proto specifications - <a href="#">smk_api_common-alpha.tar.gz</a></li>
+          </ul>
+        </li>
+      </ul>
 
       {% for pdef in piqdef %}
       {% with def=pdef.def %}
