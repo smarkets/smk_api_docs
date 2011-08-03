@@ -37,41 +37,59 @@
         Create a persistent TCP connection to <code>api-dev.corp.smarkets.com:3701</code>
         </li>
         <li>
-        <a href="#encode">Encode</a>, <a href="#frame" class="type">frame</a>, and send a <a href="#message" class="type">message</a> with a <a href="#login" class="type">login</a> <a href="#payload" class="type">payload</a> to obtain a <a href="#session" class="type">session</a>.
+        <a href="#encode">Encode</a>, <a href="#framing" class="type">frame</a>, and send a <a href="#sequenced" class="type">sequenced</a> <a href="#payload" class="type">payload</a> with a <a href="#login" class="type">login</a> <a href="#message" class="type">message</a> to obtain a <a href="#session" class="type">session</a>.
         </li>
         <li>
         Receive the resulting <a href="#login-response" class="type">login-response</a> sent to you from Smarkets. You now have an API <a href="#session" class="type">session</a>.
         </li>
         <li>
-        Send, receive, and respond to <a href="#message">messages</a> with specific <a href="#payload" class="type">payloads</a> while maintaining and logging incoming and outgoing <a href="#seq" class="type">sequence</a> numbers for your <a href="#session" class="type">session</a>.         </li>
-        <li>
-        All messages should be processed in sequence and should never be processed out of order, except for <a href="#replay" class="type">replay</a> requests which should be handled immediately.
+        Send, receive, and respond to other <a href="#payloads">payloads</a> with specific <a href="#messages" class="type">messages</a> while maintaining and logging incoming and outgoing <a href="#seq" class="type">seq</a> numbers of <a href="#sequenced" class="type">sequenced</a> <a href="#payloads">payloads</a> for your <a href="#session" class="type">session</a>.
         </li>
         <li>
-        If your application disconnects or gets disconnected - resume the <a href="#session" class="type">session</a> by reconnecting and issuing a <a href="#message" class="type">message</a> with the resuming <a href="#seq" class="type">sequence</a> numbers and a <a href="#login" class="type">login</a> payload with the <span class="field">session</span> field set.
+        All <a href="#sequenced" class="type">sequenced</a> <a href="#payloads">payloads</a> should be processed in sequence and should never be processed out of order, except for <a href="#replay" class="type">replay</a> and resuming <a href="#login-response" class="type">login-responses</a> which can be handled immediately.
         </li>
         <li>
-        If a message is received with a <a href="#seq" class="type">sequence</a> greater than is expected a <a href="#replay" class="type">replay</a> message should be issued re-requesting the missing batch of messages.
+        If your application disconnects or gets disconnected - resume the <a href="#session" class="type">session</a> by reconnecting and issuing a <a href="#sequenced" class="type">sequenced</a> <a href="#payload" class="type">payload</a> with the resuming <a href="#seq" class="type">seq</a> numbers and a <a href="#login" class="type">login</a> message with the <span class="field">session</span> field set.
+        </li>
+        <li>
+        If a <a href="#sequenced" class="type">sequenced</a> <a href="#payload" class="type">payload</a> is received with a <a href="#seq" class="type">seq</a> greater than is expected a <a href="#replay" class="type">replay</a> message should be issued re-requesting the missing batch of messages.
         </li>
       </ol>
       </p>
 
       <h2 id="encode">Encoding Messages</h2>
       <p>
-      All <a href="#frame">frames</a> are encoded into bytes compatible with <a href="http://code.google.com/p/protobuf/">Protocol Buffers</a> before being <a href="#framing">framed</a> and sent. How you do this will depend on the language you're using to communicate with Smarkets' servers. Here are some examples:
+      All <a href="#payload">payloads</a> are encoded into bytes compatible with <a href="http://code.google.com/p/protobuf/">Protocol Buffers</a> before being <a href="#framing">framed</a> and sent. How you do this will depend on the language you're using to communicate with Smarkets' servers. Here are some examples:
       </p>
       
       <h3 id="encode-erlang">Erlang</h3>
       <p>
       The type-spec for the Smarkets API is written in <a href="http://piqi.org/">Piqi</a>, so is easily compiled down into a whole bunch of Erlang records for you to use. Piqi also supports generating Protocol Buffers bytes with the generated code from piqic. Here's what using that looks like:
       </p>
-      <script src="https://gist.github.com/1122328.js?file=encode-erlang.erl"></script>
+<code class="block"><pre>
+-spec login(binary(), binary()) -> iolist().
+login(Username, Password) ->
+  Payload = #seto_sequenced{
+    seq = 1,
+    message =
+      {login, #seto_login{
+          username = Username,
+          password = Password
+      }}
+  },
+  seto_piqi:gen_payload({sequenced, Payload}).</pre></code>
       
       <h3 id="encode-python">Python</h3>
       <p>
       Since the type-spec for the Smarkets API is written in <a href="http://piqi.org/">Piqi</a>, we can translate this into a .proto file and easily get some python <a href="http://code.google.com/p/protobuf/">Protocol Buffers</a> code up and running pretty easily. Here's how to use it:
       </p>
-      <script src="https://gist.github.com/1122338.js?file=encode-python.py"></script>
+<code class="block"><pre>
+def login(username, password):
+    payload = seto_pb2.payload()
+    payload.sequenced.seq = 1
+    payload.sequenced.message.login.username = username
+    payload.sequenced.message.login.password = password
+    return payload.SerializeToString()</pre></code>
 
       <h3 id="encode-other">Other Languages</h3>
       <p>

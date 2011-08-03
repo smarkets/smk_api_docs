@@ -105,6 +105,14 @@ pre {
 }
 code.block {
   display: block;
+  border: 1px solid #ddd;
+  background: ghostWhite;
+  font-size: 0.9em;
+  padding: 0.5em 0.7em;
+}
+code pre {
+  padding:0;
+  margin:0;
 }
 .field, .type {
   background: #FDFCDC;

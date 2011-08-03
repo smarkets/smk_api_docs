@@ -3,10 +3,10 @@
 -export([build/1]).
 
 -define(ORDER, [
-    frame,
-    message,
-    seq,
     payload,
+    sequenced,
+    seq,
+    message,
     'login',
     'login-response',
     'replay',

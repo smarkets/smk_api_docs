@@ -1,7 +1,3 @@
 <p>
-Messages wrap the <a href="#payload" class="type">payload</a> and <a href="#seq" class="type">seq</a> number uniquely identifying it on either the incoming or outgoing queue of messages from and to your application and Smarkets.
-</p>
-
-<p>
-When handling an incoming <a href="#replay" class="type">replay</a> <a href="#payload" class="type">payload</a> each of the outgoing messages you send back in response need to have the <span class="field">replay</span> field set to <code>true</code>.
+Each <a href="#sequenced" class="type">sequenced</a> <a href="#payload" class="type">payload</a> sent to and received from Smarkets includes one of these message and will act/respond accordingly.
 </p>

@@ -9,6 +9,7 @@ deps:
 	cd deps && \
 		(test -d smk_api_common || git clone git://git.corp.smarkets.com/smk_api_common.git) && \
 	  cd smk_api_common && \
+		git checkout renaming && \
 		./rebar get-deps
 
 compile: deps
