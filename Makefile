@@ -7,10 +7,15 @@ all: json
 deps:
 	./rebar get-deps
 	cd deps && \
-		(test -d smk_api_common || git clone git://git.corp.smarkets.com/smk_api_common.git) && \
-	  cd smk_api_common && \
-		git checkout renaming && \
-		./rebar get-deps
+		((test -d smk_api_common && \
+	 		cd smk_api_common && \
+		  git pull origin master && \
+		  ./rebar update-deps) \
+		|| \
+		 (git clone git://git.corp.smarkets.com/smk_api_common.git && \
+			cd smk_api_common && \
+			./rebar get-deps) \
+			)
 
 compile: deps
 	./rebar compile
