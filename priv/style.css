@@ -9,11 +9,13 @@ body {
   overflow: hidden;
 }
 h1 {
-  font-size: 2em;
+  font-size: 1em;
   margin: 0;
   padding: 0.5em 0.5em;
   background: #eee;
   border-bottom: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  position: absolute;
 }
 h1 a {
   color: black;
@@ -24,6 +26,9 @@ h2 {
   margin: 0 0 1em 0;
   padding: 1em 0 0 0;
 }
+h2:first-child {
+  border-top-width: 0px !important;
+}
 
 ol.steps li {
   margin-bottom: 0.5em;
@@ -31,8 +36,8 @@ ol.steps li {
 #toc {
 }
 #toc ul {
-  padding: 0 0 0 2em;
-  margin: 1em 0 0 0;
+  padding: 0 0 0 1.6em;
+  margin: 4em 0 0 0;
 }
 #toc ul li {
   padding: 0;
@@ -48,25 +53,20 @@ ol.steps li {
   margin: 0;
 }
 #content {
-  padding: 0 1em 0 0;
+  padding: 0 2em 0 0;
 }
 @media screen {
   body {
-    margin: 4.5em 0 0 0;
-  }
-  body>h1 {
-    position: fixed;
-    top: 0;
-    width: 100%;
+    margin: 0 0 0 0;
   }
   body>div#toc {
     position: fixed;
     height: 100%;
     overflow: auto;
-    margin-bottom: 4.5em;
   }
   body>div#content {
-    margin: 0 0 0 16em;
+    z-index: 100;
+    margin: 0 0 0 15em;
     height: 100%;
     overflow: auto;
   }
@@ -106,7 +106,7 @@ pre {
 code.block {
   display: block;
   border: 1px solid #ddd;
-  background: ghostWhite;
+  background: #F8F8F8;
   font-size: 0.9em;
   padding: 0.5em 0.7em;
 }
