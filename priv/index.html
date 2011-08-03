@@ -9,9 +9,23 @@
 
     <div id="toc">
       <ul>
-      {% for name in order %}
-      <li><a href="#{{ name }}" class="type">{{ name }}</a></li>
-      {% endfor %}
+        <li><a href="">Introduction</a></li>
+        <li><a href="#encode">Encoding Messages</a>
+          <ul>
+            <li><a href="#encode-erlang">Erlang</a></li>
+            <li><a href="#encode-python">Python</a></li>
+            <li><a href="#encode-other">Other Languages</a></li>
+          </ul>
+        </li>
+        <li><a href="#framing">Framing &amp; Sending</a></li>
+        <li>
+          Type Definitions
+          <ul>
+          {% for name in order %}
+          <li><a href="#{{ name }}" class="type">{{ name }}</a></li>
+          {% endfor %}
+          </ul>
+        </li>
       </ul>
     </div>
 
@@ -42,13 +56,26 @@
       </ol>
       </p>
 
-      <p>
-      <em>Note: the example messages and payloads in message passing tables on this page are psuedo-code and not code examples of any language.</em>
-      </p>
-
       <h2 id="encode">Encoding Messages</h2>
       <p>
-      All <a href="#frame">frames</a> are encoded into bytes before being <a href="#framing">framed</a> and sent. This will depend on the language you are using to communicate with the Smarkets server.
+      All <a href="#frame">frames</a> are encoded into bytes compatible with <a href="http://code.google.com/p/protobuf/">Protocol Buffers</a> before being <a href="#framing">framed</a> and sent. How you do this will depend on the language you're using to communicate with Smarkets' servers. Here are some examples:
+      </p>
+      
+      <h3 id="encode-erlang">Erlang</h3>
+      <p>
+      The type-spec for the Smarkets API is written in <a href="http://piqi.org/">Piqi</a>, so is easily compiled down into a whole bunch of Erlang records for you to use. Piqi also supports generating Protocol Buffers bytes with the generated code from piqic. Here's what using that looks like:
+      </p>
+      <script src="https://gist.github.com/1122328.js?file=encode-erlang.erl"></script>
+      
+      <h3 id="encode-python">Python</h3>
+      <p>
+      Since the type-spec for the Smarkets API is written in <a href="http://piqi.org/">Piqi</a>, we can translate this into a .proto file and easily get some python <a href="http://code.google.com/p/protobuf/">Protocol Buffers</a> code up and running pretty easily. Here's how to use it:
+      </p>
+      <script src="https://gist.github.com/1122338.js?file=encode-python.py"></script>
+
+      <h3 id="encode-other">Other Languages</h3>
+      <p>
+      As mentioned in the Erlang and Python examples above, Smarkets' API type definitions are described using <a href="http://piqi.org/">Piqi</a>. With this we can generate a <a href="http://code.google.com/p/protobuf/">Protocol Buffers</a> .proto definition which can then be used to generate code in <a href="http://code.google.com/p/protobuf/wiki/ThirdPartyAddOns">many other languages</a>.
       </p>
 
       <h2 id="framing">Framing</h2>

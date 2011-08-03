@@ -24,16 +24,26 @@ h2 {
   margin: 0 0 1em 0;
   padding: 1em 0 0 0;
 }
+
 ol.steps li {
   margin-bottom: 0.5em;
 }
+#toc {
+}
 #toc ul {
-  list-style: none;
-  padding: 1em;
-  margin: 0;
-  font-size: 0.9em;
+  padding: 0 0 0 2em;
+  margin: 1em 0 0 0;
 }
 #toc ul li {
+  padding: 0;
+  margin: 0.3em 0 0.3em 0;
+}
+#toc ul ul {
+  padding: 0.2em 0 0 1em;
+  margin: 0;
+  font-size: 0.8em;
+}
+#toc ul ul li {
   padding: 0;
   margin: 0;
 }
@@ -50,15 +60,13 @@ ol.steps li {
     width: 100%;
   }
   body>div#toc {
-    width: 17em;
     position: fixed;
-    left: 0;
-    top: 4.5em;
     height: 100%;
     overflow: auto;
+    margin-bottom: 4.5em;
   }
   body>div#content {
-    margin: 0 0 0 18em;
+    margin: 0 0 0 16em;
     height: 100%;
     overflow: auto;
   }
@@ -71,8 +79,8 @@ p {
 }
 h3 {
   font-size: 1.25em;
-  margin: 0 0 1em 0;
-  padding: 1em 0 0 0;
+  margin: 0.5em 0 0.5em 0;
+  padding: 0 0 0 0;
 }
 h3 .name {
   font-weight: bold;
