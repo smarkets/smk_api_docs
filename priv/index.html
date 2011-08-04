@@ -128,12 +128,14 @@ def login(username, password):
         <li>
           Prebuilt SDKs
           <ul>
-            <li>Erlang - <a href="https://github.com/smarkets/smk_erlang_sdk/zipball/smk_erlang_sdk-{{ version }}.tar.gz">smk_erlang_sdk-{{ version }}.tar.gz</a></li>
+            <li>Erlang - add the following dependancy to your <a href="https://github.com/basho/rebar">rebar</a>.config and checkout the <a href="https://github.com/smarkets/smk_erlang_sdk/tree/{{ version }}#readme">README on GitHub</a>
+            <code class="block" style="margin-top: 0.5em">{smk_erlang_sdk, "{{ version }}", {git, "https://github.com/smarkets/smk_erlang_sdk.git", {tag, "{{ version }}"}}}</code> 
+            </li>
             <li>Python - <a href="https://github.com/smarkets/smk_python_sdk/zipball/smk_python_sdk-{{ version }}.tar.gz">smk_python_sdk-{{ version }}.tar.gz</a></li>
             <li>.piqi and .proto specifications - <a href="https://github.com/smarkets/smk_api_common/zipball/smk_api_common-{{ version }}.tar.gz">smk_api_common-{{ version }}.tar.gz</a></li>
           </ul>
         </li>
-        <li>Just these docs (also included in the SDKs above) - <a href="https://github.com/smarkets/smk_api_docs/zipball/smk_api_docs-{{ version }}.tar.gz">smk_api_docs-{{ version }}.tar.gz</a></li>
+        <li>These docs (also included in the SDKs above) - <a href="https://github.com/smarkets/smk_api_docs/zipball/smk_api_docs-{{ version }}.tar.gz">smk_api_docs-{{ version }}.tar.gz</a></li>
         <li><a href="https://github.com/smarkets/">Smarkets GitHub Account</a></li>
       </ul>
       {% endif %}
