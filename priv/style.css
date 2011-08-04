@@ -39,16 +39,24 @@ ol.steps li {
 #toc {
 }
 #toc ul {
-  padding: 0 0 0 1.6em;
-  margin: 4.5em 0 0 0;
+  list-style: none;
+  padding: 0 0 0 0;
+  margin: 4.5em 0 0 1em;
 }
 #toc ul li {
   padding: 0;
   margin: 0.3em 0 0.5em 0;
 }
 #toc ul ul {
-  padding: 0.2em 0 0 0.5em;
-  margin: 0;
+  list-style: disc;
+  padding: 0 0 0 1.5em;
+  margin: 0.5em 0;
+}
+#toc ul.defs {
+  list-style: none;
+  padding: 0;
+}
+#toc .type {
   font-size: 0.9em;
 }
 #toc ul ul li {
@@ -72,7 +80,7 @@ ol.steps li {
   }
   body>div#content {
     z-index: 100;
-    margin: 0 0 0 17em;
+    margin: 0 0 0 16em;
     height: 100%;
     overflow: auto;
   }

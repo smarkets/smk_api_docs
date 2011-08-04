@@ -1,8 +1,15 @@
 .PHONY: deps
 
+VSN=dev
+NAME=smk_api_docs-$(VSN)
+
 all: json
 	mkdir -p build
-	./docs.escript build
+	./docs.escript $(VSN)
+
+site: json
+	mkdir -p site
+	./docs.escript $(VSN) site
 
 deps:
 	./rebar get-deps
@@ -29,3 +36,11 @@ json: compile
 		-f piqi -t json \
 		deps/smk_api_common/seto.piqi \
 		priv/seto.json
+
+distclean:
+	rm -rf *.tar.gz
+
+dist: all
+	cp -rf build "$(NAME)"
+	tar -zcf "$(NAME).tar.gz" "$(NAME)"
+	rm -rf "$(NAME)"

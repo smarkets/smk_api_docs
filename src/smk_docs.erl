@@ -1,7 +1,8 @@
 -module(smk_docs).
 
--export([build/1]).
+-export([build/1, build_site/1]).
 
+-define(BUILD, "build").
 -define(ORDER, [
     payload,
     sequenced,
@@ -36,7 +37,19 @@
     'id-invalid'
   ]).
 
-build(Dir) ->
+build(Vsn) ->
+  write(prep(Vsn), ?BUILD).
+build_site(Vsn) ->
+  write([{live_site,1}|prep(Vsn)], "site").
+
+write(Ctx, Dir) ->
+  {ok, Index} = index_tpl:render(Ctx),
+  file:write_file(j(Dir,"index.html"), Index),
+  file:copy(priv_dir("style.css"), j(Dir,"style.css")),
+  ok.
+
+
+prep(Vsn) ->
   {ok, EtoBin} = file:read_file(priv_dir("eto.json")),
   {ok, SetoBin} = file:read_file(priv_dir("seto.json")),
 
@@ -57,14 +70,13 @@ build(Dir) ->
   Order = order(),
   PiqDef = lists:sort(fun(A,B) -> sort(A,B,Order) end, EtoPiqDef ++ SetoPiqDef),
 
-  Ctx = [
+  _Ctx = [
+    {version, Vsn},
     {order, [proplists:get_value(name, proplists:get_value(def, DefDef)) || DefDef <- PiqDef]},
     {piqdef, PiqDef}
-  ],
-  {ok, Index} = index_tpl:render(Ctx),
-  file:write_file(j(Dir,"index.html"), Index),
-  file:copy(priv_dir("style.css"), j(Dir,"style.css")),
-  ok.
+  ].
+
+
 
 extend(Extend, Defs) ->
   [Name] = proplists:get_value(name,Extend),
