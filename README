@@ -8,10 +8,10 @@ To generate a copy of the docs with the version set to a specific version edit r
 
     make VSN=0.1-alpha       # 0.1-alpha being the git tag for the specific API revision
 
-To generate a copy of the live hosted docs into site/ for a specific version edit rebar.conf to grab the correct version'd dependancies and type:
-
-    make site VSN=0.1-alpha  
-
 To generate smk_api_docs-VSN.tar.gz edit rebar.conf to grab the correct version'd dependancies and type:
 
     make dist VSN=0.1-alpha
+
+The live hosted copy of the docs contains links to archived SDKs and GitHub account whereas static docs link to the live docs in the Downloads & Code section. To generate a copy of the live hosted docs into site/ for a specific version edit rebar.conf to grab the correct version'd dependancies and type:
+
+    make site VSN=0.1-alpha  
