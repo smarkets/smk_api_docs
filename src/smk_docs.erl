@@ -45,7 +45,9 @@ build_site(Vsn) ->
 write(Ctx, Dir) ->
   {ok, Index} = index_tpl:render(Ctx),
   file:write_file(j(Dir,"index.html"), Index),
-  file:copy(priv_dir("style.css"), j(Dir,"style.css")),
+  lists:foreach(fun(F) -> file:copy(priv_dir(F), j(Dir,F)) end, [
+      "style.css", "logo.gif"
+    ]),
   ok.
 
 

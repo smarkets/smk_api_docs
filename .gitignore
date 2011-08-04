@@ -4,3 +4,4 @@ priv/*.json
 ebin
 .DS_Store
 site
+*.tar.gz
