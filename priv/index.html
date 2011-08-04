@@ -48,10 +48,10 @@
         Receive the resulting <a href="#login-response" class="type">login-response</a> sent to you from Smarkets. You now have an API <a href="#session" class="type">session</a>.
         </li>
         <li>
-        Send, receive, and respond to other <a href="#payloads">payloads</a> with specific <a href="#messages" class="type">messages</a> while maintaining and logging incoming and outgoing <a href="#seq" class="type">seq</a> numbers of <a href="#sequenced" class="type">sequenced</a> <a href="#payloads">payloads</a> for your <a href="#session" class="type">session</a>.
+        Send, receive, and respond to other <a href="#payloads" class="type">payloads</a> with specific <a href="#messages" class="type">messages</a> while maintaining and logging incoming and outgoing <a href="#seq" class="type">seq</a> numbers of <a href="#sequenced" class="type">sequenced</a> <a href="#payloads" class="type">payloads</a> for your <a href="#session" class="type">session</a>.
         </li>
         <li>
-        All <a href="#sequenced" class="type">sequenced</a> <a href="#payloads">payloads</a> should be processed in sequence and should never be processed out of order, except for <a href="#replay" class="type">replay</a> and resuming <a href="#login-response" class="type">login-responses</a> which can be handled immediately.
+        All <a href="#sequenced" class="type">sequenced</a> <a href="#payloads" class="type">payloads</a> should be processed in sequence and should never be processed out of order, except for <a href="#replay" class="type">replay</a> and resuming <a href="#login-response" class="type">login-responses</a> which can be handled immediately.
         </li>
         <li>
         If your application disconnects or gets disconnected - resume the <a href="#session" class="type">session</a> by reconnecting and issuing a <a href="#sequenced" class="type">sequenced</a> <a href="#payload" class="type">payload</a> with the resuming <a href="#seq" class="type">seq</a> numbers and a <a href="#login" class="type">login</a> message with the <span class="field">session</span> field set.
