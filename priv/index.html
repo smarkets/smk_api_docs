@@ -197,9 +197,9 @@ def login(username, password):
 
       Frames (including length header and message bytes) must be a
       minimum of 4 bytes in length. This only affects messages which
-      are 1 or 2 bytes in length. In those cases, 0 padding should be
-      added until the total frame length is 4 bytes. Otherwise, no
-      padding should be added.
+      are themselves 1 or 2 bytes in length. In those cases, 0 padding
+      should be added until the total frame length is 4
+      bytes. Otherwise, no padding should be added.
 
       <table class="frame">
         <tbody>
