@@ -205,3 +205,62 @@ table.passing tr.odd {
 .right {
   text-align: right !important;
 }
+table.length-header {
+  text-align: center;
+  border-collapse: collapse;
+  color: black;
+  margin: 1em auto;
+}
+table.length-header th, table.length-header td {
+  border: 1px #aaa solid;
+  padding: 0.2em;
+}
+table.length-header th {
+  background: #f2f2f2;
+  text-align: center;
+}
+td.bit, th.bit {
+  font-weight: bold;
+  width: 15px;
+}
+th.bit8 {
+  width: 120px;
+}
+td.byte, th.byte {
+  border-right: 1px #333 solid;
+}
+th.bit tt, td.bit {
+  font-size: 77%;
+  line-height: 1;
+}
+td.continuation {
+  font-weight: bold;
+  background-color: #fbb;
+}
+tt {
+  font-family: monospace, "Courier New";
+}
+table.frame {
+  border-spacing: 2px;
+  margin: 1em auto;
+  text-align: center;
+  font-family: monospace, "Courier New";
+  border-collapse: collapse;
+  line-height: 19px;
+}
+table.frame tbody {
+  vertical-align: middle;
+}
+table.frame td {
+  border: 1px #333 solid;
+  padding: 5px;
+}
+table.frame td.first {
+  border-left: hidden;
+}
+table.frame td.last {
+  border-right: hidden;
+}
+table.frame td.title {
+  border: 0;
+}
