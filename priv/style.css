@@ -122,6 +122,7 @@ h3 span {
 .seq,
 .encoded,
 .direction,
+.option,
 .field,
 code,
 pre {
@@ -156,6 +157,10 @@ code pre {
 
 .default {
   font-style: italic;
+}
+.optional {
+  font-style: italic;
+  color: #444;
 }
 
 table.passing {

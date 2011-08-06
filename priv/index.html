@@ -267,6 +267,9 @@ def login(username, password):
           {% if field.default %}
           <span class="default">Default: {{ field.default.value }}</span>
           {% endif %}
+          {% if field.mode and field.mode.optional %}
+          <span class="optional">[optional]</span>
+          {% endif %}
           </li>
           {% endfor %}
         </ul>
