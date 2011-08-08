@@ -1,1 +1,1 @@
-<span>({% if name=="bool" or name=="int" or name=="binary" or name=="float" %}<span class="type">{{ name }}</span>{% else %}<a href="#{{ name }}" class="type">{{ name }}</a>{% endif %})</span>
+<span>({% if name=="uint64" or name=="uint32" or name=="bool" or name=="int" or name=="binary" or name=="float" %}<span class="type">{{ name }}</span>{% else %}<a href="#{{ name }}" class="type">{{ name }}</a>{% endif %})</span>
