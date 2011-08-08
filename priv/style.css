@@ -86,6 +86,7 @@ ol.steps li {
   body>div#toc {
     position: fixed;
     height: 100%;
+    width: 15em;
     overflow: auto;
   }
   body>div#content {
