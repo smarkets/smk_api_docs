@@ -1,3 +1,190 @@
 <p>
-Represents a single <a href="#contract" class="type">contract's</a> <a href="#quote" class="type">quotes</a> on both the buy and sell sides within <a href="#market-quotes" class="type">market-quotes</a> being sent to a <a href="#session" class="type">session</a>.
+Represents <em>all</em> of the available visable depth of <a href="#quote" class="type">quotes</a> available for a single <a href="#contract" class="type">contract</a> on both the buy and sell sides within <a href="#market-quotes" class="type">market-quotes</a> being sent to a <a href="#session" class="type">session</a>.
 </p>
+<p>
+It can also be sent as a <a href="#message" class="type">message</a> itself <em>without</em> being wrapped in <a href="#market-quotes" class="type">market-quotes</a>. This represents <em>updates</em> in the market where <em>only the changed <a href="#quote" class="type">quotes</a> will be sent</em>. This is done when an order is accepted or executed where both sides of the market might change like so (using the Smarkets.com depth view as an example UI):
+</p>
+<table class="depth">
+  <thead>
+    <th colspan="5">For</th>
+    <th colspan="5">Against</th>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="buy"><span class="price">55%</span><br /><span class="qty">100000</span></td>
+      <td class="buy"><span class="price">54%</span><br /><span class="qty">100000</span></td>
+      <td class="buy"><span class="price">53%</span><br /><span class="qty">100000</span></td>
+      <td class="buy"><span class="price">52%</span><br /><span class="qty">100000</span></td>
+      <td class="buy"><span class="price">51%</span><br /><span class="qty">100000</span></td>
+      <td class="sell"><span class="price">49%</span><br /><span class="qty">100000</span></td>
+      <td class="sell"><span class="price">48%</span><br /><span class="qty">100000</span></td>
+      <td class="sell"><span class="price">47%</span><br /><span class="qty">100000</span></td>
+      <td class="sell"><span class="price">46%</span><br /><span class="qty">100000</span></td>
+      <td class="sell"><span class="price">45%</span><br /><span class="qty">100000</span></td>
+    </tr>
+    <tr>
+      <td colspan="10">
+        <ul>
+          <li class="event">Contract updated with a new buy price at 50%</li>
+        </ul>
+<code><pre>
+contract_quotes{
+  contract = ...,
+  buy = [
+    quote{
+      price = "50.00",
+      quantity = 200000
+    }
+  ],
+  sell = [] 
+}
+</pre></code>
+        <ul>
+          <li class="event">Push worse available quotes to the side to fit in 50%
+          <br />
+          Note that the liquidity is displayed on the opposite side, meaning "available for you to sell - matching the available buy".
+          </li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>-</td>
+      <td>-</td>
+      <td>-</td>
+      <td>-</td>
+      <td>-</td>
+      <td>insert</td>
+      <td>&gt;</td>
+      <td>&gt;</td>
+      <td>&gt;</td>
+      <td>&gt;</td>
+    </tr>
+    <tr>
+      <td class="buy"><span class="price">55%</span><br /><span class="qty">100000</span></td>
+      <td class="buy"><span class="price">54%</span><br /><span class="qty">100000</span></td>
+      <td class="buy"><span class="price">53%</span><br /><span class="qty">100000</span></td>
+      <td class="buy"><span class="price">52%</span><br /><span class="qty">100000</span></td>
+      <td class="buy"><span class="price">51%</span><br /><span class="qty">100000</span></td>
+      <td class="sell"><span class="price">50%</span><br /><span class="qty">100000</span></td>
+      <td class="sell"><span class="price">49%</span><br /><span class="qty">100000</span></td>
+      <td class="sell"><span class="price">48%</span><br /><span class="qty">100000</span></td>
+      <td class="sell"><span class="price">47%</span><br /><span class="qty">100000</span></td>
+      <td class="sell"><span class="price">46%</span><br /><span class="qty">100000</span></td>
+    </tr>
+    <tr>
+      <td colspan="10">
+        <ul>
+          <li class="event">A sell order comes in at 50% that matches <strong>all</strong> of the available 50% quantity with some left over.</li>
+        </ul>
+<code><pre>
+contract_quotes{
+  contract = ...,
+  buy = [
+    quote{
+      price = "50.00",
+      quantity = 0
+    },
+    quote{
+      price = "45.00",
+      quantity = 400000
+    }
+  ],
+  sell = [
+    quote{
+      price = "50.00",
+      quantity = 300000
+    }
+  ]
+}
+</pre></code>
+        <ul>
+        <li class="event">Get rid of 50% available for a seller to take due to quantity being zero.</li>
+        <li class="event">Move prices over to fill in where 50% used to live and add the 45% we were just told.</li>
+        <li class="event">
+          Push over the worse sell quotes to the left and fit in the 50% available for someone to buy.
+          <br />
+          Note that the available quantity at 45% is different to what we previously pushed off the end,<br />
+          this is because it fell outside of the available depth that Smarkets provides, and has updated since it fell off the end.
+          </li>
+
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>&lt;</td>
+      <td>&lt;</td>
+      <td>&lt;</td>
+      <td>&lt;</td>
+      <td>insert</td>
+      <td>remove &lt;</td>
+      <td>&lt;</td>
+      <td>&lt;</td>
+      <td>&lt;</td>
+      <td>insert</td>
+    </tr>
+    <tr>
+      <td class="buy"><span class="price">54%</span><br /><span class="qty">100000</span></td>
+      <td class="buy"><span class="price">53%</span><br /><span class="qty">100000</span></td>
+      <td class="buy"><span class="price">52%</span><br /><span class="qty">100000</span></td>
+      <td class="buy"><span class="price">51%</span><br /><span class="qty">100000</span></td>
+      <td class="buy"><span class="price">50%</span><br /><span class="qty">300000</span></td>
+      <td class="sell"><span class="price">49%</span><br /><span class="qty">100000</span></td>
+      <td class="sell"><span class="price">48%</span><br /><span class="qty">100000</span></td>
+      <td class="sell"><span class="price">47%</span><br /><span class="qty">100000</span></td>
+      <td class="sell"><span class="price">46%</span><br /><span class="qty">100000</span></td>
+      <td class="sell"><span class="price">45%</span><br /><span class="qty">400000</span></td>
+    </tr>
+    <tr>
+      <td colspan="10">
+        <ul>
+          <li class="event">A buy order at 51% comes in that takes and price improvement causes all the 50% to get matched along with a portion of the available 51% quantity.</li>
+          <li class="event">There is no more liquidity worse than 54% on the buy side (sells available to be taken)</li>
+        </ul>
+<code><pre>
+contract_quotes{
+  contract = ...,
+  buy = [],
+  sell = [
+    quote{
+      price = "50.00",
+      quantity = 0
+    },
+    quote{
+      price = "51.00",
+      quantity = 20000
+    }
+  ]
+}
+</pre></code>
+        <ul>
+          <li>Remove 50% due to quantity being zero and shift everything over.</li>
+          <li>Update 51% to quantity 20000</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>&gt;</td>
+      <td>&gt;</td>
+      <td>&gt;</td>
+      <td>&gt; remove</td>
+      <td>-</td>
+      <td>-</td>
+      <td>-</td>
+      <td>-</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td class="buy">-</td>
+      <td class="buy"><span class="price">54%</span><br /><span class="qty">100000</span></td>
+      <td class="buy"><span class="price">53%</span><br /><span class="qty">100000</span></td>
+      <td class="buy"><span class="price">52%</span><br /><span class="qty">100000</span></td>
+      <td class="buy"><span class="price">51%</span><br /><span class="qty">20000</span></td>
+      <td class="sell"><span class="price">49%</span><br /><span class="qty">100000</span></td>
+      <td class="sell"><span class="price">48%</span><br /><span class="qty">100000</span></td>
+      <td class="sell"><span class="price">47%</span><br /><span class="qty">100000</span></td>
+      <td class="sell"><span class="price">46%</span><br /><span class="qty">100000</span></td>
+      <td class="sell"><span class="price">45%</span><br /><span class="qty">400000</span></td>
+    </tr>
+  </tbody>
+</table>

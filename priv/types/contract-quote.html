@@ -1,3 +1,121 @@
 <p>
-After a <a href="#market-subscription" class="type">market-subscription</a> is sent to Smarkets each time the market depth of a specific <a href="#group" class="type">group</a> changes the subscribed <a href="#session" class="type">session</a> will be sent a <span class="type">contract-quote</span>.
+After a <a href="#market-subscription" class="type">market-subscription</a> is sent to Smarkets - each time the market depth of a specific <a href="#side" class="type">side</a> of a <a href="#contract" class="type">contract</a> updates - the subscribed <a href="#session" class="type">session</a> will receive a <span class="type">contract-quote</span>.
 </p>
+<table class="depth">
+  <thead>
+    <th colspan="5">For</th>
+    <th colspan="5">Against</th>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="buy"><span class="price">55%</span><br /><span class="qty">100000</span></td>
+      <td class="buy"><span class="price">54%</span><br /><span class="qty">100000</span></td>
+      <td class="buy"><span class="price">53%</span><br /><span class="qty">100000</span></td>
+      <td class="buy"><span class="price">52%</span><br /><span class="qty">100000</span></td>
+      <td class="buy"><span class="price">51%</span><br /><span class="qty">100000</span></td>
+      <td class="sell"><span class="price">49%</span><br /><span class="qty">100000</span></td>
+      <td class="sell"><span class="price">48%</span><br /><span class="qty">100000</span></td>
+      <td class="sell"><span class="price">47%</span><br /><span class="qty">100000</span></td>
+      <td class="sell"><span class="price">46%</span><br /><span class="qty">100000</span></td>
+      <td class="sell"><span class="price">45%</span><br /><span class="qty">100000</span></td>
+    </tr>
+    <tr>
+      <td colspan="10">
+        <ul>
+          <li class="event">The quantity of buys at 47% goes down</li>
+        </ul>
+<code><pre>
+contract_quote{
+  contract = ...,
+  side = buy,
+  quote_list = [
+    quote{
+      price = "47.00",
+      quantity = 30000
+    }
+  ],
+}
+</pre></code>
+        <ul>
+          <li class="event">Update 47% on the opposite side</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>-</td>
+      <td>-</td>
+      <td>-</td>
+      <td>-</td>
+      <td>-</td>
+      <td>-</td>
+      <td>-</td>
+      <td>update</td>
+      <td>-</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td class="buy"><span class="price">55%</span><br /><span class="qty">100000</span></td>
+      <td class="buy"><span class="price">54%</span><br /><span class="qty">100000</span></td>
+      <td class="buy"><span class="price">53%</span><br /><span class="qty">100000</span></td>
+      <td class="buy"><span class="price">52%</span><br /><span class="qty">100000</span></td>
+      <td class="buy"><span class="price">51%</span><br /><span class="qty">100000</span></td>
+      <td class="sell"><span class="price">49%</span><br /><span class="qty">100000</span></td>
+      <td class="sell"><span class="price">48%</span><br /><span class="qty">100000</span></td>
+      <td class="sell"><span class="price">47%</span><br /><span class="qty">30000</span></td>
+      <td class="sell"><span class="price">46%</span><br /><span class="qty">100000</span></td>
+      <td class="sell"><span class="price">45%</span><br /><span class="qty">100000</span></td>
+    </tr>
+    <tr>
+      <td colspan="10">
+        <ul>
+          <li class="event">All of 47% buys get removed/taken.</li>
+          <li class="event">Get told about another quote outside of the available depth due to 47% being removed.</li>
+        </ul>
+<code><pre>
+contract_quote{
+  contract = ...,
+  side = buy,
+  quote_list = [
+    quote{
+      price = "47.00",
+      quantity = 0
+    },
+    quote{
+      price = "39.30",
+      quantity = 450000
+    }
+  ],
+}
+</pre></code>
+        <ul>
+          <li class="event">Remove 47% and shift other prices along</li>
+          <li class="event">Insert 39.3% on the end</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>-</td>
+      <td>-</td>
+      <td>-</td>
+      <td>-</td>
+      <td>-</td>
+      <td>-</td>
+      <td>-</td>
+      <td>remove &lt;</td>
+      <td>&lt;</td>
+      <td>insert</td>
+    </tr>
+    <tr>
+      <td class="buy"><span class="price">55%</span><br /><span class="qty">100000</span></td>
+      <td class="buy"><span class="price">54%</span><br /><span class="qty">100000</span></td>
+      <td class="buy"><span class="price">53%</span><br /><span class="qty">100000</span></td>
+      <td class="buy"><span class="price">52%</span><br /><span class="qty">100000</span></td>
+      <td class="buy"><span class="price">51%</span><br /><span class="qty">100000</span></td>
+      <td class="sell"><span class="price">49%</span><br /><span class="qty">100000</span></td>
+      <td class="sell"><span class="price">48%</span><br /><span class="qty">100000</span></td>
+      <td class="sell"><span class="price">46%</span><br /><span class="qty">100000</span></td>
+      <td class="sell"><span class="price">45%</span><br /><span class="qty">100000</span></td>
+      <td class="sell"><span class="price">39.3%</span><br /><span class="qty">450000</span></td>
+    </tr>
+  </tbody>
+</table>

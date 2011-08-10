@@ -270,3 +270,31 @@ table.frame td.last {
 table.frame td.title {
   border: 0;
 }
+
+table.depth {
+  text-align: center;
+  margin: 0 auto 1em auto;
+}
+table.depth td {
+  padding: 0.2em 0.5em;
+}
+table.depth .buy {
+  background: #E8F3F8;  
+}
+table.depth .sell {
+  background: #FDEAF4;  
+}
+table.depth ul {
+  margin: 0;
+  padding: 0;
+}
+table.depth .event {
+  text-align: left;
+  padding: 0.4em 0 0.3em 0;
+}
+table.depth code {
+  font-size: 0.9em;
+}
+table.depth pre {
+  text-align: left;
+}
