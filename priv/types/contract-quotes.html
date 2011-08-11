@@ -2,7 +2,7 @@
 Represents <em>all</em> of the available visable depth of <a href="#quote" class="type">quotes</a> available for a single <a href="#contract" class="type">contract</a> on both the buy and sell sides within <a href="#market-quotes" class="type">market-quotes</a> being sent to a <a href="#session" class="type">session</a>.
 </p>
 <p>
-It can also be sent as a <a href="#message" class="type">message</a> itself <em>without</em> being wrapped in <a href="#market-quotes" class="type">market-quotes</a>. This represents <em>updates</em> in the market where <em>only the changed <a href="#quote" class="type">quotes</a> will be sent</em>. This is done when an order is accepted or executed where both sides of the market might change like so (using the Smarkets.com depth view as an example UI):
+It can also be sent as a <a href="#message" class="type">message</a> itself <em>without</em> being wrapped in <a href="#market-quotes" class="type">market-quotes</a>. This represents <em>updates</em> in the market where <em>only the changed <a href="#quote" class="type">quotes</a> will be sent</em>. This is done when an order is accepted, executed, or cancelled like so (using the Smarkets.com depth view as an example UI):
 </p>
 <table class="depth">
   <thead>
