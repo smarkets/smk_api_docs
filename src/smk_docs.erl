@@ -26,6 +26,8 @@
     'contract-quote',
     'quote-list',
     'quote',
+    'execution-list',
+    'execution',
     'order-create',
     'order-accepted',
     'order-rejected',

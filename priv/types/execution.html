@@ -1,0 +1,6 @@
+<p>
+After subscribing to a market by sending a <a href="#market-subscription" class="type">market-subscription</a> <a href="#message" class="type">message</a> the <span class="field">last-execution</span> for each <a href="#contract-quotes" class="type">contract-quotes</a> in the initial <a href="#market-quotes" class="type">market-quotes</a> snapshot will be defined.
+</p>
+<p>
+For each separate <a href="#contract-quotes" class="type">contract-quotes</a> <a href="#message" class="type">message</a> sent during regular market update behaviour <em>after the initial <span class="type">market-quotes</span> snapshot</em> each <span class="type">execution</span> in the <a href="#execution-list" class="type">execution-list</a> will represent the executions that resulted in the updated <a href="#quote" class="type">quotes</a>.
+</p>

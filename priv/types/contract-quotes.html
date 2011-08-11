@@ -35,8 +35,7 @@ contract_quotes{
       price = "50.00",
       quantity = 200000
     }
-  ],
-  sell = [] 
+  ]
 }
 </pre></code>
         <ul>
@@ -143,7 +142,6 @@ contract_quotes{
 <code><pre>
 contract_quotes{
   contract = ...,
-  buy = [],
   sell = [
     quote{
       price = "50.00",
@@ -157,8 +155,8 @@ contract_quotes{
 }
 </pre></code>
         <ul>
-          <li>Remove 50% due to quantity being zero and shift everything over.</li>
-          <li>Update 51% to quantity 20000</li>
+          <li class="event">Remove 50% due to quantity being zero and shift everything over.</li>
+          <li class="event">Update 51% to quantity 20000</li>
         </ul>
       </td>
     </tr>
