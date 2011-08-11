@@ -80,10 +80,6 @@ contract_quotes{
   contract = ...,
   buy = [
     quote{
-      price = "50.00",
-      quantity = 0
-    },
-    quote{
       price = "45.00",
       quantity = 400000
     }
@@ -93,11 +89,17 @@ contract_quotes{
       price = "50.00",
       quantity = 300000
     }
+  ],
+  executions = [
+    execution{
+      price = "50.00",
+      quantity = 100000
+    }
   ]
 }
 </pre></code>
         <ul>
-        <li class="event">Get rid of 50% available for a seller to take due to quantity being zero.</li>
+        <li class="event">Get rid of 50% available for a seller to take due to receiving 1 worse price from outside the depth size.</li>
         <li class="event">Move prices over to fill in where 50% used to live and add the 45% we were just told.</li>
         <li class="event">
           Push over the worse sell quotes to the left and fit in the 50% available for someone to buy.
@@ -144,18 +146,24 @@ contract_quotes{
   contract = ...,
   sell = [
     quote{
-      price = "50.00",
-      quantity = 0
-    },
-    quote{
       price = "51.00",
       quantity = 20000
+    }
+  ],
+  executions = [
+    execution{
+      price = "50.00",
+      quantity = 300000
+    },
+    execution{
+      price = "51.00",
+      quantity = 280000
     }
   ]
 }
 </pre></code>
         <ul>
-          <li class="event">Remove 50% due to quantity being zero and shift everything over.</li>
+          <li class="event">Remove 50% due to execution and an extra price coming in from outside the depth size of 5.</li>
           <li class="event">Update 51% to quantity 20000</li>
         </ul>
       </td>
@@ -183,6 +191,55 @@ contract_quotes{
       <td class="sell"><span class="price">47%</span><br /><span class="qty">100000</span></td>
       <td class="sell"><span class="price">46%</span><br /><span class="qty">100000</span></td>
       <td class="sell"><span class="price">45%</span><br /><span class="qty">400000</span></td>
+    </tr>
+    <tr>
+      <td colspan="10">
+        <ul>
+          <li class="event">All 48% is cancelled and more comes in from outside the depth limit of 5.</li>
+        </ul>
+<code><pre>
+contract_quotes{
+  contract = ...,
+  sell = [
+    quote{
+      price = "48.00",
+      quantity = 0
+    },
+    quote{
+      price = "40.00",
+      quantity = 30000
+    }
+  ]
+}
+</pre></code>
+        <ul>
+          <li class="event">Remove 48% due to quantity of zero and an extra price coming in from outside the depth size of 5.</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>-</td>
+      <td>-</td>
+      <td>-</td>
+      <td>-</td>
+      <td>-</td>
+      <td>removed &lt;</td>
+      <td>&lt;</td>
+      <td>&lt;</td>
+      <td>insert</td>
+    </tr>
+    <tr>
+      <td class="buy">-</td>
+      <td class="buy"><span class="price">54%</span><br /><span class="qty">100000</span></td>
+      <td class="buy"><span class="price">53%</span><br /><span class="qty">100000</span></td>
+      <td class="buy"><span class="price">52%</span><br /><span class="qty">100000</span></td>
+      <td class="buy"><span class="price">51%</span><br /><span class="qty">20000</span></td>
+      <td class="sell"><span class="price">49%</span><br /><span class="qty">100000</span></td>
+      <td class="sell"><span class="price">47%</span><br /><span class="qty">100000</span></td>
+      <td class="sell"><span class="price">46%</span><br /><span class="qty">100000</span></td>
+      <td class="sell"><span class="price">45%</span><br /><span class="qty">400000</span></td>
+      <td class="sell"><span class="price">40%</span><br /><span class="qty">30000</span></td>
     </tr>
   </tbody>
 </table>
