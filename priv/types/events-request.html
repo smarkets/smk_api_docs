@@ -1,0 +1,14 @@
+<p>
+Send this to the API and receive back a <a href="#http-found" class="type">http-found</a> specifying the permanent URL to the event information for the query at this current point in time.
+</p>
+<p>
+politics, current-affairs, and tv-and-entertainment result in a feed for all of that category. Only one category can be specified.
+</p>
+<p>
+sport-other results in a feed for all sports given the following rules:
+<ul>
+  <li>football, horse-racing, or tennis AND date &gt; 7 days in the future - all others should be fetched using the sport-by-date option.</li>
+  <li>football, horse-racing, or tennis without an event date.</li>
+  <li>all other sports not football, horse-racing, or tennis.</li>
+</ul>
+</p>

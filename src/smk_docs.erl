@@ -14,20 +14,37 @@
     'logout-reason',
     'heartbeat',
     'replay',
+
+    'events-request',
+    'sport-by-date',
+    'sport-by-date-type',
+    'events',
+    'event-info',
+    'event-info-list',
+    'event-type',
+    'event-category',
+    'market-info',
+    'market-info-list',
+    'contract-info',
+    'contract-info-list',
+    'contract-type',
+    'entity-relationship',
+    'entity-relationship-list',
+    'entity-relationship-type',
+
     'market-request',
-    'market-data',
-    'contract-data',
     'market-subscription',
     'market-unsubscription',
     'market-quotes-request',
     'market-quotes',
-    'contracts-quotes-list',
+    'contract-quotes-list',
     'contract-quotes',
     'contract-quote',
     'quote-list',
     'quote',
     'execution-list',
     'execution',
+
     'order-create',
     'order-accepted',
     'order-rejected',
@@ -39,7 +56,13 @@
     'order-invalid',
     'order-invalid-reason-list',
     'order-invalid-reason',
-    'id-invalid'
+
+    'id-invalid',
+
+    'microseconds',
+    'date',
+    'time',
+    'int-list'
   ]).
 
 build(Vsn) ->
