@@ -262,7 +262,7 @@ def login(username, password):
           <span class="name">{{ module.name }}/{{ def.name }}</span>
           <span class="piqi_type">{{ pdef.piqi_type }}</span>
           {% if pdef.piqi_type=="list" or pdef.piqi_type=="alias" %}
-          {% type name=def.type.name module=module.name %}
+          {% type name=def.type.name module=def.type.module %}
           {% endif %}
         </h4>
 
@@ -271,7 +271,7 @@ def login(username, password):
           {% for field in def.field %}
           <li>
           <span class="name">{% firstof field.name field.type.name %}</span>
-          {% type name=field.type.name module=module.name %}
+          {% type name=field.type.name module=field.type.module %}
           {% if field.default %}
           <span class="default">Default: {{ field.default.value }}</span>
           {% endif %}
@@ -289,7 +289,7 @@ def login(username, password):
           <li>
           <span class="name">{% firstof option.name option.type.name %}</span>
           {% if option.type %}
-          {% type name=option.type.name module=module.name %}
+          {% type name=option.type.name module=option.type.module %}
           {% endif %}
           </li>
           {% endfor %}

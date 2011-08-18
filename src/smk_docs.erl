@@ -143,6 +143,17 @@ atomize(Module, [{<<"list">>,[{<<"name">>,_},{<<"type">>,_}]=Def}]) ->
 atomize(Module, {<<"default">>, [{Type,Value}]}) ->
   {default, [{type,atomize(Module, Type)}, {value,Value}]};
 
+atomize(Module, {<<"type">>,[{<<"name">>,Name}]}) ->
+  {type,
+    case binary:match(Name, <<"/">>) of
+      nomatch ->
+        [{name,atomize(Module,Name)},{module,atom_to_binary(Module,utf8)}];
+      {Pos,_} ->
+        OtherModule = binary:part(Name,0,Pos),
+        NamePart = binary:part(Name,Pos+1,size(Name)-Pos-1),
+        [{name,NamePart},{module,OtherModule}]
+    end};
+
 atomize(Module, L) when is_list(L) ->
   lists:map(fun(X) -> atomize(Module,X) end, L);
 
