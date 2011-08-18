@@ -1,9 +1,9 @@
 <p>
-An example <span class="type">login</span> <span class="type">message</span> for first establisting a session is described in the <a href="#seq" class="type">seq</a> type above.
+An example <span class="type">login</span> for first establisting a session is described in the <a href="#eto/seq" class="type">seq</a> type.
 </p>
 
 <p>
-To resume a <a href="#session" class="type">session</a> the field for this in the <span class="type">login</span> <span class="type">message</span> needs to be specified with the identifier originally returned in the incoming <a href="#login-response" class="type">login-response</a> within the <a href="#sequenced" class="type">sequenced</a> <a href="#payload" class="type">payload</a> with <a href="#seq">seq</a> <span class="seq">1</span>. The <a href="#sequenced" class="type">sequenced</a> wrapping the <span class="type">login</span> <span class="type">message</span> also needs to have the outgoing <a href="#seq">seq</a> that your application was previously going to send next before the connection was dropped. Your incoming sequence number also needs to be as it would have been before the connection was dropped so that any <a href="#sequenced" class="type">sequenced</a> <a href="#payload" class="type">payloads</a> sent to your application from Smarkets while the connection was down can be <a href="#replay">replayed</a>. This is done by comparing the sequence of the resulting <a href="#login-response" class="type">login-response</a> and the one your application is expecting to be next. Smarkets will do the same by comparing the sequence of your login message with what it expects to be the next payload and may also send a <a href="#replay">replayed</a> message in your application's direction.
+To resume a <a href="#eto/session" class="type">session</a> the field for this in the <span class="type">login</span> <a href="#eto/payload" class="type">eto/payload</a> needs to be specified with the identifier originally returned in the incoming <a href="#eto/login-response" class="type">login-response</a> who's <a href="#eto/payload" class="type">eto/payload</a> with <a href="#eto/seq">seq</a> <span class="seq">1</span>. The <a href="#eto/payload" class="type">eto/payload</a> with <span class="field">type</span> <span class="type">login</span> also needs to have the outgoing <a href="#eto/seq">seq</a> that your application was previously going to send before the connection was dropped. Your incoming sequence number also needs to be as it would have been before the connection was dropped so that any <a href="#seto/payload" class="type">seto/payloads</a> sent to your application from Smarkets while the connection was down can be <a href="#eto/replay">replayed</a>. This is done by comparing the sequence of the resulting <a href="#eto/payload" class="type">eto/payload</a> with <span class="field">type</span> <a href="#login-response" class="type">login-response</a> and the sequence your application is expecting to be next. Smarkets will do the same by comparing the sequence of your login message with what it expects to be the next payload and may also send a <a href="#eto/replay">replay</a> payload in your application's direction.
 </p>
 
 <table class="passing">
@@ -38,14 +38,14 @@ To resume a <a href="#session" class="type">session</a> the field for this in th
       <td><span class="seq">78</span></td>
       <td class="encoded"></td>
       <td class="direction left">&lt;</td>
-      <td class="encoded">sequenced{seq=20, message=login{session=…}}</td>
+      <td class="encoded">eto/payload{seq=20, login=eto/login{session=…}}</td>
       <td><span class="seq changed">21</span></td>
       <td><span class="seq">78</span></td>
     </tr>
     <tr>
       <td><span class="seq changed">21</span></td>
       <td><span class="seq">78</span></td>
-      <td class="encoded">sequenced{seq=20, message=login{session=…}}</td>
+      <td class="encoded">eto/payload{seq=20, login=eto/login{session=…}}</td>
       <td class="direction left">&lt;</td>
       <td class="encoded"></td>
       <td><span class="seq">21</span></td>
@@ -54,7 +54,7 @@ To resume a <a href="#session" class="type">session</a> the field for this in th
     <tr class="odd">
       <td><span class="seq">21</span></td>
       <td><span class="seq changed">79</span></td>
-      <td class="encoded">sequenced{seq=78, message=login_response{…}}</td>
+      <td class="encoded">eto/payload{seq=78, login_response=…}</td>
       <td class="direction right">&gt;</td>
       <td class="encoded"></td>
       <td><span class="seq">21</span></td>
@@ -65,7 +65,7 @@ To resume a <a href="#session" class="type">session</a> the field for this in th
       <td><span class="seq">79</span></td>
       <td class="encoded"></td>
       <td class="direction right">&gt;</td>
-      <td class="encoded">sequenced{seq=78, message=login_response{…}}</td>
+      <td class="encoded">eto/payload{seq=78, login_response=…}</td>
       <td><span class="seq">21</span></td>
       <td><span class="seq changed">79</span></td>
     </tr>
@@ -75,7 +75,7 @@ To resume a <a href="#session" class="type">session</a> the field for this in th
 <h4 id="login-replay">Requesting replay after resuming a session <a href="#login-replay" rel="bookmark">permalink</a></h4>
 
 <p>
-Here is an example of when the server has allocated a number of sequenced payloads to be sent to the client's session while it was disconnected. The resulting replayed sending and receiving has been interleaved to show the asynchronous nature of message passing (more than one can be sent before 1 is received).
+Here is an example of when the server has allocated a number of payloads to be sent to the client's session while it was disconnected. The resulting replay sending and receiving has been interleaved to show the asynchronous nature of message passing (more than one can be sent before 1 is received).
 </p>
 
 <table class="passing">
@@ -110,14 +110,14 @@ Here is an example of when the server has allocated a number of sequenced payloa
       <td><span class="seq">58</span></td>
       <td class="encoded"></td>
       <td class="direction left">&lt;</td>
-      <td class="encoded">sequenced{seq=40, message=login{session=…}}</td>
+      <td class="encoded">eto/payload{seq=40, login=eto/login{session=…}}</td>
       <td><span class="seq changed">41</span></td>
       <td><span class="seq">54</span></td>
     </tr>
     <tr>
       <td><span class="seq changed">41</span></td>
       <td><span class="seq">58</span></td>
-      <td class="encoded">sequenced{seq=40, message=login{session=…}}</td>
+      <td class="encoded">eto/payload{seq=40, login=eto/login{session=…}}</td>
       <td class="direction left">&lt;</td>
       <td class="encoded"></td>
       <td><span class="seq">41</span></td>
@@ -126,7 +126,7 @@ Here is an example of when the server has allocated a number of sequenced payloa
     <tr class="odd">
       <td><span class="seq">41</span></td>
       <td><span class="seq changed">59</span></td>
-      <td class="encoded">sequenced{seq=58, message=login_response{…}}</td>
+      <td class="encoded">eto/payload{seq=58, login_response=…}</td>
       <td class="direction right">&gt;</td>
       <td class="encoded"></td>
       <td><span class="seq">41</span></td>
@@ -137,7 +137,7 @@ Here is an example of when the server has allocated a number of sequenced payloa
       <td><span class="seq">59</span></td>
       <td class="encoded"></td>
       <td class="direction right">&gt;</td>
-      <td class="encoded">sequenced{seq=78, message=login_response{…}}</td>
+      <td class="encoded">eto/payload{seq=78, login_response=…}</td>
       <td><span class="seq">41</span></td>
       <td><span class="seq incorrect">54</span></td>
     </tr>
@@ -146,14 +146,14 @@ Here is an example of when the server has allocated a number of sequenced payloa
       <td><span class="seq">59</span></td>
       <td class="encoded"></td>
       <td class="direction left">&lt;</td>
-      <td class="encoded">sequenced{seq=41, message=replay{seq=54}}</td>
+      <td class="encoded">eto/payload{seq=41, is_replay=eto/replay{seq=54}}</td>
       <td><span class="seq changed">42</span></td>
       <td><span class="seq">54</span></td>
     </tr>
     <tr>
       <td><span class="seq changed">42</span></td>
       <td><span class="seq">59</span></td>
-      <td class="encoded">sequenced{seq=42, message=replay{seq=54}}</td>
+      <td class="encoded">eto/payload{seq=42, is_replay=eto/replay{seq=54}}</td>
       <td class="direction left">&lt;</td>
       <td class="encoded"></td>
       <td><span class="seq">42</span></td>
@@ -162,7 +162,7 @@ Here is an example of when the server has allocated a number of sequenced payloa
     <tr>
       <td><span class="seq">42</span></td>
       <td><span class="seq">59</span></td>
-      <td class="encoded">sequenced{seq=54, message=pong, replay=true}</td>
+      <td class="encoded">eto/payload{seq=54, type=pong, is_replay=true}</td>
       <td class="direction right">&gt;</td>
       <td class="encoded"></td>
       <td><span class="seq">42</span></td>
@@ -171,7 +171,7 @@ Here is an example of when the server has allocated a number of sequenced payloa
     <tr>
       <td><span class="seq">42</span></td>
       <td><span class="seq">59</span></td>
-      <td class="encoded">sequenced{seq=55, message=pong, replay=true}</td>
+      <td class="encoded">eto/payload{seq=55, type=pong, is_replay=true}</td>
       <td class="direction right">&gt;</td>
       <td class="encoded"></td>
       <td><span class="seq">42</span></td>
@@ -182,14 +182,14 @@ Here is an example of when the server has allocated a number of sequenced payloa
       <td><span class="seq">59</span></td>
       <td class="encoded"></td>
       <td class="direction right">&gt;</td>
-      <td class="encoded">sequenced{seq=54, message=pong, replay=true}</td>
+      <td class="encoded">eto/payload{seq=54, type=pong, is_replay=true}</td>
       <td><span class="seq">42</span></td>
       <td><span class="seq changed">55</span></td>
     </tr>
     <tr>
       <td><span class="seq">42</span></td>
       <td><span class="seq">59</span></td>
-      <td class="encoded">sequenced{seq=56, message=pong, replay=true}</td>
+      <td class="encoded">eto/payload{seq=56, type=pong, is_replay=true}</td>
       <td class="direction right">&gt;</td>
       <td class="encoded"></td>
       <td><span class="seq">42</span></td>
@@ -200,7 +200,7 @@ Here is an example of when the server has allocated a number of sequenced payloa
       <td><span class="seq">59</span></td>
       <td class="encoded"></td>
       <td class="direction right">&gt;</td>
-      <td class="encoded">sequenced{seq=55, message=pong, replay=true}</td>
+      <td class="encoded">eto/payload{seq=55, type=pong, is_replay=true}</td>
       <td><span class="seq">42</span></td>
       <td><span class="seq changed">56</span></td>
     </tr>
@@ -209,14 +209,14 @@ Here is an example of when the server has allocated a number of sequenced payloa
       <td><span class="seq">59</span></td>
       <td class="encoded"></td>
       <td class="direction right">&gt;</td>
-      <td class="encoded">sequenced{seq=56, message=pong, replay=true}</td>
+      <td class="encoded">eto/payload{seq=56, type=pong, is_replay=true}</td>
       <td><span class="seq">42</span></td>
       <td><span class="seq changed">57</span></td>
     </tr>
     <tr>
       <td><span class="seq">42</span></td>
       <td><span class="seq">59</span></td>
-      <td class="encoded">sequenced{seq=57, message=pong, replay=true}</td>
+      <td class="encoded">eto/payload{seq=57, type=pong, is_replay=true}</td>
       <td class="direction right">&gt;</td>
       <td class="encoded"></td>
       <td><span class="seq">42</span></td>
@@ -225,7 +225,7 @@ Here is an example of when the server has allocated a number of sequenced payloa
     <tr>
       <td><span class="seq">42</span></td>
       <td><span class="seq">59</span></td>
-      <td class="encoded">sequenced{seq=58, message=<a href="#replay" class="type">gapfill</a>, replay=true}</td>
+      <td class="encoded">eto/payload{seq=58, type=<a href="#replay" class="type">gapfill</a>, is_replay=true}</td>
       <td class="direction right">&gt;</td>
       <td class="encoded"></td>
       <td><span class="seq">42</span></td>
@@ -236,7 +236,7 @@ Here is an example of when the server has allocated a number of sequenced payloa
       <td><span class="seq">59</span></td>
       <td class="encoded"></td>
       <td class="direction right">&gt;</td>
-      <td class="encoded">sequenced{seq=57, message=pong, replay=true}</td>
+      <td class="encoded">eto/payload{seq=57, type=pong, is_replay=true}</td>
       <td><span class="seq">42</span></td>
       <td><span class="seq changed">58</span></td>
     </tr>
@@ -245,7 +245,7 @@ Here is an example of when the server has allocated a number of sequenced payloa
       <td><span class="seq">59</span></td>
       <td class="encoded"></td>
       <td class="direction right">&gt;</td>
-      <td class="encoded">sequenced{seq=58, message=<a href="#replay" class="type">gapfill</a>, replay=true}</td>
+      <td class="encoded">eto/payload{seq=58, type=<a href="#replay" class="type">gapfill</a>, is_replay=true}</td>
       <td><span class="seq">42</span></td>
       <td><span class="seq changed">59</span></td>
     </tr>

@@ -22,11 +22,17 @@
         <li><a href="#framing">Framing</a></li>
         <li><a href="#code">Downloads &amp; Code</a></li>
         <li>
-          <a href="#defs">Type Definitions</a>
+          <div style="margin-bottom:0.5em;"><a href="#defs">Type Definitions</a></div>
           <ul>
-          {% for name in order %}
-          <li><a href="#{{ name }}">{{ name }}</a></li>
-          {% endfor %}
+            {% for name in seto_order %}
+            <li><a href="#seto/{{ name }}">{{ name }}</a></li>
+            {% endfor %}
+          </ul>
+          <a href="#eto">eto</a>
+          <ul>
+            {% for name in eto_order %}
+            <li><a href="#eto/{{ name }}">{{ name }}</a></li>
+            {% endfor %}
           </ul>
         </li>
       </ul>
@@ -241,7 +247,9 @@ def login(username, password):
       {% endif %}
 
       <h2 id="defs">Type Definitions</h2>
-      {% for pdef in piqdef %}
+      {% for module in modules %}
+      <div id="{{ module.name }}">
+      {% for pdef in module.def %}
       {% with def=pdef.def %}
       {% if not def.name %}
       {% comment %}
@@ -250,11 +258,11 @@ def login(username, password):
 
       {% else %}
       <div class="def">
-        <h3 id="{{ def.name }}">
-          <span class="name">{{ def.name }}</span>
+        <h3 id="{{ module.name }}/{{ def.name }}">
+          <span class="name">{{ module.name }}/{{ def.name }}</span>
           <span class="piqi_type">{{ pdef.piqi_type }}</span>
           {% if pdef.piqi_type=="list" or pdef.piqi_type=="alias" %}
-          {% type name=def.type.name %}
+          {% type name=def.type.name module=module.name %}
           {% endif %}
         </h4>
 
@@ -263,7 +271,7 @@ def login(username, password):
           {% for field in def.field %}
           <li>
           <span class="name">{% firstof field.name field.type.name %}</span>
-          {% type name=field.type.name %}
+          {% type name=field.type.name module=module.name %}
           {% if field.default %}
           <span class="default">Default: {{ field.default.value }}</span>
           {% endif %}
@@ -281,7 +289,7 @@ def login(username, password):
           <li>
           <span class="name">{% firstof option.name option.type.name %}</span>
           {% if option.type %}
-          {% type name=option.type.name %}
+          {% type name=option.type.name module=module.name %}
           {% endif %}
           </li>
           {% endfor %}
@@ -295,6 +303,8 @@ def login(username, password):
       </div>
       {% endif %}
       {% endwith %}
+      {% endfor %}
+      </div>
       {% endfor %}
     </div>
 

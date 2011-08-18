@@ -1,8 +1,8 @@
 <p>
-Represents <em>all</em> of the available visable depth of <a href="#quote" class="type">quotes</a> available for a single <a href="#contract" class="type">contract</a> on both the buy and sell sides within <a href="#market-quotes" class="type">market-quotes</a> being sent to a <a href="#session" class="type">session</a>.
+Represents <em>all</em> of the available visable depth of <a href="#seto/quote" class="type">quotes</a> available for a single <a href="#seto/contract" class="type">contract</a> on both the buy and sell sides within <a href="#seto/market-quotes" class="type">market-quotes</a> being sent to a <a href="#eto/session" class="type">session</a>.
 </p>
 <p>
-It can also be sent as a <a href="#message" class="type">message</a> itself <em>without</em> being wrapped in <a href="#market-quotes" class="type">market-quotes</a>. This represents <em>updates</em> in the market where <em>only the changed <a href="#quote" class="type">quotes</a> will be sent</em>. This is done when an order is accepted, executed, or cancelled like so (using the Smarkets.com depth view as an example UI):
+It can also be sent in a <a href="#seto/payload" class="type">payload</a> itself <em>without</em> being wrapped in <a href="#seto/market-quotes" class="type">market-quotes</a>. This represents <em>updates</em> in the market where <em>only the changed <a href="#seto/quote" class="type">quotes</a> will be sent</em>. This is done when an order is accepted, executed, or cancelled like so (using the Smarkets.com depth view as an example UI):
 </p>
 <table class="depth">
   <thead>
@@ -32,7 +32,7 @@ contract_quotes{
   contract = ...,
   buy = [
     quote{
-      price = "50.00",
+      price = 5000,
       quantity = 200000
     }
   ]
@@ -80,19 +80,19 @@ contract_quotes{
   contract = ...,
   buy = [
     quote{
-      price = "45.00",
+      price = 4500,
       quantity = 400000
     }
   ],
   sell = [
     quote{
-      price = "50.00",
+      price = 5000,
       quantity = 300000
     }
   ],
   executions = [
     execution{
-      price = "50.00",
+      price = 5000,
       quantity = 100000
     }
   ]
@@ -146,17 +146,17 @@ contract_quotes{
   contract = ...,
   sell = [
     quote{
-      price = "51.00",
+      price = 5100,
       quantity = 20000
     }
   ],
   executions = [
     execution{
-      price = "50.00",
+      price = 5000,
       quantity = 300000
     },
     execution{
-      price = "51.00",
+      price = 5100,
       quantity = 280000
     }
   ]
@@ -202,11 +202,11 @@ contract_quotes{
   contract = ...,
   sell = [
     quote{
-      price = "48.00",
+      price = 4800,
       quantity = 0
     },
     quote{
-      price = "40.00",
+      price = 4000,
       quantity = 30000
     }
   ]

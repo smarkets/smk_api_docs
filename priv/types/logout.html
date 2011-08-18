@@ -1,6 +1,0 @@
-<p>
-Smarkets will send a <a href="#session" class="type">session</a> a <span class="type">logout</span> with reason <span class="option">heartbeat-timeout</span> if a reasonable amount of time has lapsed since receiving any <a href="#payload" class="type">payload</a>.
-</p>
-<p>
-If you wish your <a href="#session" class="type">session</a> to logout cleanly you can send Smarkets a <span class="type">logout</span> with no <span class="field">reason</span> specified. Smarkets will then reply with a <span class="type">logout</span> with <span class="field">reason</span> <span class="field">confirmation</span> and disconnect the TCP socket.
-</p>

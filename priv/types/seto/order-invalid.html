@@ -1,0 +1,6 @@
+<p>
+An order is validated before being sent to a <a href="#market" class="type">market's</a> book. This will be sent in response to an <a href="#seto/order-create" class="type">order-create</a> in the case of one or more <a href="#seto/order-invalid-reason">order-invalid-reasons</a> being raised.
+</p>
+<p>
+The <a href="#eto/seq" class="type">seq</a> here refers to the <a href="#eto/seq" class="type">seq</a> of the <a href="#eto/payload" class="type">eto/payload</a> your application sent to Smarkets in the <a href="#seto/payload" class="type">seto/payload</a> with type <a href="#order-create" class="type">order-create</a> so your application can detect which request was invalid.
+</p>

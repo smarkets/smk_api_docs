@@ -1,0 +1,20 @@
+<p>
+When the incoming <a href="#eto/payload" class="type">eto/payload's</a> <a href="#eto/seq" class="type">seq</a> is <em>greater</em> than the one the server or your application is expecting then a <a href="#eto/replay" class="type">replay</a> <a href="#eto/payload" class="type">eto/payload</a> needs to be sent to fill in the gap and bring that side in line with the other. An example of this can be found in the description of <a href="#eto/login" class="type">eto/login</a>. The <a href="#eto/seq" class="type">seq</a> for <a href="#eto/replay" class="type">replay</a> should not be confused with the <a href="#eto/seq" class="type">seq</a> for the <a href="#eto/payload" class="type">eto/payload</a> containing the <a href="#eto/replay" class="type">replay</a>. The <a href="#eto/seq" class="type">seq</a> here needs to be the sequence that is being requested for playback.
+<p>
+
+<p>
+When receiving an <a href="#eto/payload" class="type">eto/payload</a> with type <a href="#eto/replay" class="type">replay</a> every <a href="#seto/payload" class="type">seto/payload</a> with <a href="#eto/payload" class="type">eto/payload</a> from the requested sequence upwards should be resent to the other side of the connection with their <a href="#eto/payload" class="type">eto/payload</a> and sequence entact but with the <span class="field">is_replay</span> value set to <code>true</code>. Both the server and clients need to do this.
+</p>
+
+<p>
+Some messages <em>should not</em> be re-sent and instead replaced with the type <span class="type">gapfill</span>:
+</p>
+<ul>
+  <li><a href="#eto/login" class="type">login</a></li>
+  <li><a href="#eto/login-response" class="type">login-response</a></li>
+  <li><a href="#eto/replay" class="type">replay</a></li>
+  <li><a href="#eto/heartbeat" class="type">heartbeat</a></li>
+</ul>
+<p>
+An example of this can be seen when <a href="#login-replay">resuming a session</a> for server outgoing sequence <span class="seq">58</span> which was originally a <span class="type">login-response</span>.
+</p>

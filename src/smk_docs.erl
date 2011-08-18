@@ -3,67 +3,6 @@
 -export([build/1, build_site/1]).
 
 -define(BUILD, "build").
--define(ORDER, [
-    payload,
-    sequenced,
-    seq,
-    message,
-    'login',
-    'login-response',
-    'logout',
-    'logout-reason',
-    'heartbeat',
-    'replay',
-
-    'events-request',
-    'sport-by-date',
-    'sport-by-date-type',
-    'events',
-    'event-info',
-    'event-info-list',
-    'event-type',
-    'event-category',
-    'market-info',
-    'market-info-list',
-    'contract-info',
-    'contract-info-list',
-    'contract-type',
-    'entity-relationship',
-    'entity-relationship-list',
-    'entity-relationship-type',
-
-    'market-request',
-    'market-subscription',
-    'market-unsubscription',
-    'market-quotes-request',
-    'market-quotes',
-    'contract-quotes-list',
-    'contract-quotes',
-    'contract-quote',
-    'quote-list',
-    'quote',
-    'execution-list',
-    'execution',
-
-    'order-create',
-    'order-accepted',
-    'order-rejected',
-    'order-rejected-reason',
-    'order-executed',
-    'order-cancel',
-    'order-cancelled',
-    'order-cancelled-reason',
-    'order-invalid',
-    'order-invalid-reason-list',
-    'order-invalid-reason',
-
-    'id-invalid',
-
-    'microseconds',
-    'date',
-    'time',
-    'int-list'
-  ]).
 
 build(Vsn) ->
   write(prep(Vsn), ?BUILD).
@@ -87,83 +26,81 @@ prep(Vsn) ->
       {custom_tags_dir, priv_dir()}
     ]),
 
-  SetoSpec = atomize(jsx:json_to_term(SetoBin)),
+  SetoSpec = atomize(seto, jsx:json_to_term(SetoBin)),
   SetoPiqDef = proplists:get_value(piqdef, SetoSpec),
 
-  EtoSpec = atomize(jsx:json_to_term(EtoBin)),
-  EtoPiqDef =
-    lists:foldl(fun extend/2,
-      proplists:get_value(piqdef, EtoSpec),
-      proplists:get_value(extend, SetoSpec)
-    ),
+  EtoSpec = atomize(eto, jsx:json_to_term(EtoBin)),
+  EtoPiqDef = proplists:get_value(piqdef, EtoSpec),
 
-  Order = order(),
-  PiqDef = lists:sort(fun(A,B) -> sort(A,B,Order) end, EtoPiqDef ++ SetoPiqDef),
+  SortedSetoPiqDef = lists:sort(fun sort/2, SetoPiqDef),
+  SortedEtoPiqDef = lists:sort(fun sort/2, EtoPiqDef),
 
-  _Ctx = [
+  [
     {version, Vsn},
-    {order, [proplists:get_value(name, proplists:get_value(def, DefDef)) || DefDef <- PiqDef]},
-    {piqdef, PiqDef}
+    {eto_order, [proplists:get_value(name, proplists:get_value(def, DefDef)) || DefDef <- SortedEtoPiqDef]},
+    {seto_order, [proplists:get_value(name, proplists:get_value(def, DefDef)) || DefDef <- SortedSetoPiqDef]},
+    {modules, [
+        [{name,"seto"},{def,SortedSetoPiqDef}],
+        [{name,"eto"},{def,SortedEtoPiqDef}]
+      ]}
   ].
 
-
-
-extend(Extend, Defs) ->
-  [Name] = proplists:get_value(name,Extend),
-  _Existing =
-  extend(Name, Extend, find(Name, Defs), Defs).
-
-extend(_, _, undefined, Defs) -> Defs;
-extend(Name, Extend, Def, Defs) ->
-  Any = proplists:get_value(piq_any, Extend),
-  replace(Name, lists:foldl(fun extend_any/2, Def, Any),Defs).
-
-extend_any([{named, Named}], [{piqi_type,Type}|_] = Def) ->
-  extend(Type, Named, Def);
-
-extend_any(_, Def) -> Def.
-
-extend(record, [{name,field},{value,Value}], Def) ->
-  [{list,[
-        [{named,[{name,name},{value,[{word,Name}]}]}],
-        [{named,[{name,type},{value,[{word,Type}]}]}]
-      ]}] = Value,
-  DefDef = proplists:get_value(def, Def),
-  Fields = proplists:get_value(field, DefDef),
-  NewFields = Fields ++ [[{name,Name},{type,[{name,Type}]}]],
-  lists:keyreplace(def, 1, Def,
-    {def, lists:keyreplace(field, 1, DefDef,
-      {field, NewFields}
-    )}
-  );
-extend(variant, [{name,option},{value,Value}], Def) ->
-  [{list,[
-        [{named,[{name,type},{value,[{word,Type}]}]}]
-      ]}] = Value,
-  DefDef = proplists:get_value(def, Def),
-  Options = proplists:get_value(option, DefDef),
-  NewOptions = Options ++ [[{type,[{name,Type}]}]],
-  lists:keyreplace(def, 1, Def,
-    {def, lists:keyreplace(option, 1, DefDef,
-      {option, NewOptions}
-    )}
-  );
-
-extend(_, _, Def) -> Def.
-
-find(_, []) -> undefined;
-find(Name, [[_,{def,[{name,Name}|_]}|_]=H|_]) ->
-  H;
-find(Name, [_|T]) ->
-  find(Name, T).
-
-replace(Name, Def, Defs) ->
-  replace(Name, Def, Defs, []).
-
-replace(Name, Def, [[_,{def,[{name,Name}|_]}|_]|T], Acc) ->
-  lists:reverse(Acc) ++ [Def|T];
-replace(Name, Def, [H|T], Acc) ->
-  replace(Name, Def, T, [H|Acc]).
+%extend(Extend, Defs) ->
+%  [Name] = proplists:get_value(name,Extend),
+%  _Existing =
+%  extend(Name, Extend, find(Name, Defs), Defs).
+%
+%extend(_, _, undefined, Defs) -> Defs;
+%extend(Name, Extend, Def, Defs) ->
+%  Any = proplists:get_value(piq_any, Extend),
+%  replace(Name, lists:foldl(fun extend_any/2, Def, Any),Defs).
+%
+%extend_any([{named, Named}], [{piqi_type,Type}|_] = Def) ->
+%  extend(Type, Named, Def);
+%
+%extend_any(_, Def) -> Def.
+%
+%extend(record, [{name,field},{value,Value}], Def) ->
+%  [{list,[
+%        [{named,[{name,name},{value,[{word,Name}]}]}],
+%        [{named,[{name,type},{value,[{word,Type}]}]}]
+%      ]}] = Value,
+%  DefDef = proplists:get_value(def, Def),
+%  Fields = proplists:get_value(field, DefDef),
+%  NewFields = Fields ++ [[{name,Name},{type,[{name,Type}]}]],
+%  lists:keyreplace(def, 1, Def,
+%    {def, lists:keyreplace(field, 1, DefDef,
+%      {field, NewFields}
+%    )}
+%  );
+%extend(variant, [{name,option},{value,Value}], Def) ->
+%  [{list,[
+%        [{named,[{name,type},{value,[{word,Type}]}]}]
+%      ]}] = Value,
+%  DefDef = proplists:get_value(def, Def),
+%  Options = proplists:get_value(option, DefDef),
+%  NewOptions = Options ++ [[{type,[{name,Type}]}]],
+%  lists:keyreplace(def, 1, Def,
+%    {def, lists:keyreplace(option, 1, DefDef,
+%      {option, NewOptions}
+%    )}
+%  );
+%
+%extend(_, _, Def) -> Def.
+%
+%find(_, []) -> undefined;
+%find(Name, [[_,{def,[{name,Name}|_]}|_]=H|_]) ->
+%  H;
+%find(Name, [_|T]) ->
+%  find(Name, T).
+%
+%replace(Name, Def, Defs) ->
+%  replace(Name, Def, Defs, []).
+%
+%replace(Name, Def, [[_,{def,[{name,Name}|_]}|_]|T], Acc) ->
+%  lists:reverse(Acc) ++ [Def|T];
+%replace(Name, Def, [H|T], Acc) ->
+%  replace(Name, Def, T, [H|Acc]).
    
 
 priv_dir() ->
@@ -179,56 +116,47 @@ priv_dir() ->
 priv_dir(File) ->
   filename:join(priv_dir(), File).
 
-description([{<<"name">>,Name}|_]) ->
-  File = priv_dir(j("types",<<Name/binary,".html">>)),
+description(Module, [{<<"name">>,Name}|_]) ->
+  File = priv_dir(j(["types",atom_to_binary(Module,utf8),<<Name/binary,".html">>])),
   case file:read_file(File) of
     {ok, Description} -> Description;
     _ -> ""
   end;
-description(_) -> "".
+description(_, _) -> "".
 
-atomize([{Type,Def}]) when Type =:= <<"alias">>
+atomize(Module, [{Type,Def}]) when Type =:= <<"alias">>
                    orelse Type =:= <<"enum">>
                    orelse Type =:= <<"record">>
                    orelse Type =:= <<"variant">> ->
   [
-    {piqi_type,atomize(Type)},
-    {def, atomize(Def)},
-    {description,description(Def)}
+    {piqi_type,atomize(Module, Type)},
+    {def, atomize(Module, Def)},
+    {description,description(Module, Def)}
   ];
-atomize([{<<"list">>,[{<<"name">>,_},{<<"type">>,_}]=Def}]) ->
+atomize(Module, [{<<"list">>,[{<<"name">>,_},{<<"type">>,_}]=Def}]) ->
   [
     {piqi_type,list},
-    {def, atomize(Def)},
-    {description,description(Def)}
+    {def, atomize(Module, Def)},
+    {description,description(Module, Def)}
   ];
 
-atomize({<<"default">>, [{Type,Value}]}) ->
-  {default, [{type,atomize(Type)}, {value,Value}]};
+atomize(Module, {<<"default">>, [{Type,Value}]}) ->
+  {default, [{type,atomize(Module, Type)}, {value,Value}]};
 
-atomize(L) when is_list(L) ->
-  lists:map(fun atomize/1, L);
+atomize(Module, L) when is_list(L) ->
+  lists:map(fun(X) -> atomize(Module,X) end, L);
 
-atomize({K,V}) when is_binary(K) ->
-  {atomize(K),atomize(V)};
+atomize(Module, {K,V}) when is_binary(K) ->
+  {atomize(Module, K),atomize(Module, V)};
 
-atomize(T) when is_binary(T) -> binary_to_atom(T,utf8);
-atomize(T) -> T.
+atomize(_, T) when is_binary(T) -> binary_to_atom(T,utf8);
+atomize(_, T) -> T.
 
 j(D,F) -> j([D,F]).
 j(L) -> filename:join(L).
 
-order() ->
-  {L,_} =
-    lists:foldl(
-      fun(Name, {Acc,I}) ->
-        {[{Name,I}|Acc],I+1}
-      end, {[],1}, ?ORDER),
-  lists:reverse(L).
+sort(A, B) ->
+  name(A) < name(B).
 
-sort(A, B, Order) ->
-  pos(A, Order) < pos(B, Order).
-
-pos(DefDef, Order) ->
-  Name = proplists:get_value(name, proplists:get_value(def, DefDef)),
-  proplists:get_value(Name, Order, 99999).
+name(DefDef) ->
+  proplists:get_value(name, proplists:get_value(def, DefDef)).

@@ -30,9 +30,9 @@ compile: deps
 json: compile
 	piqi convert \
 		-f piqi -t json \
-		deps/smk_api_common/deps/eto_common/eto.piqi \
+		deps/eto_common/eto.piqi \
 		priv/eto.json
-	piqi convert -I deps/smk_api_common/deps/eto_common/ \
+	piqi convert -I deps/eto_common/ \
 		-f piqi -t json \
 		deps/smk_api_common/seto.piqi \
 		priv/seto.json

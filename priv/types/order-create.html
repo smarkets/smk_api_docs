@@ -1,9 +1,0 @@
-<p>
-You'll most probably be calling this more than anything else in this API. In response to this Smarkets will send you one of <a href="#order-accepted" class="type">order-accepted</a>, <a href="#order-rejected" class="type">order-rejected</a>, or <a href="#order-invalid" class="type">order-invalid</a>.
-</p>
-<p>
-To prevent your application from accidently creating more orders than it really wanted to you should always locally associate your orders within your application with the order creation <a href="#message" class="types">messages</a> and outgoing <a href="#seq" class="type">seq</a> of the <a href="#sequenced" class="type">sequenced</a> <a href="#payload" class="type">payload</a> you send to Smarkets for the current <a href="#session" class="type">session</a>.
-</p>
-<p>
-<em>If a <a href="#sequenced" class="type">sequenced</a> <a href="#payload" class="type">payload</a> with an <span class="type">order-create</span> <a href="#message" class="types">message</a> has a different outgoing <a href="#seq" class="type">seq</a> number then <strong>it will result in a new order being created</strong>.</em>
-</p>
