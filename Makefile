@@ -7,10 +7,6 @@ all: json
 	mkdir -p build
 	./docs.escript $(VSN)
 
-site: json
-	mkdir -p site
-	./docs.escript $(VSN) site
-
 deps:
 	./rebar get-deps
 	cd deps && \

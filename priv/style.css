@@ -43,7 +43,7 @@ h2:first-child {
   margin-top: 0.5em;
 }
 
-ol.steps li {
+ol.steps li, ul.downloads li {
   margin-bottom: 0.5em;
 }
 #toc {
@@ -76,7 +76,7 @@ ol.steps li {
 #content {
   padding: 0 2em 0 0;
 }
-#content ul li {
+.def ul li {
   margin: 0.3em 0;
 }
 @media screen {
@@ -135,6 +135,7 @@ code.block {
   background: #F8F8F8;
   font-size: 0.9em;
   padding: 0.5em 0.7em;
+  margin: 0.5em 0;
 }
 code pre {
   padding:0;
