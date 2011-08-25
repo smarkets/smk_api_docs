@@ -13,14 +13,10 @@ deps:
 		((test -d smk_api_common && \
 	 		cd smk_api_common && \
 		  git pull origin master && \
-			git fetch --tags && \
-			git checkout 0.1-alpha && \
 		  ./rebar update-deps) \
 		|| \
-		(git clone https://github.com/smarkets/smk_api_common.git && \
+		(git clone git://git.corp.smarkets.com/smk_api_common.git && \
 			cd smk_api_common && \
-			git fetch --tags && \
-			git checkout 0.1-alpha && \
 			./rebar get-deps) \
 			)
 
