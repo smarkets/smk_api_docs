@@ -193,6 +193,15 @@
       <h2 id="defs">Type Definitions</h2>
       {% for module in modules %}
       <div id="{{ module.name }}">
+      {% ifequal module.name "eto" %}
+      <h2>eto</h2>
+      <p>
+      eto/* are definitions for the transport layer to the Smarkets API.
+      </p>
+      <p>
+      seto/* refers to Smarkets application specific definitions which wrap <a href="#eto/payload" class="type">eto/payloads</a> to provide a <a href="#eto/seq" class="type">sequenced</a> bassed messaging protocol.
+      </p>
+      {% endifequal %}
       {% for pdef in module.def %}
       {% with def=pdef.def %}
       {% if not def.name %}
