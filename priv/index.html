@@ -71,17 +71,24 @@
 }</pre></code>
         </li>
         <li>
-        Send more <a href="#seto/payload" class="type">seto/payloads</a> with an incrementing <em>outgoing</em> <a href="#eto/seq">seq</a> in their <a href="#eto/payload" class="type">eto/payload</a>.
+        Send more <a href="#seto/payload" class="type">seto/payloads</a> with an incrementing <em>outgoing</em> <a href="#eto/seq">seq</a> in their <a href="#eto/payload" class="type">eto/payload</a> (<a href="#eto/seq">more about sequences</a>).
         </li>
         <li>
-        Receive more <a href="#seto/payload" class="type">seto/payloads</a> with an incrementing <em>incoming</em> <a href="#eto/seq">seq</a> in their <a href="#eto/payload" class="type">eto/payload</a>.
+        Receive more <a href="#seto/payload" class="type">seto/payloads</a> with an incrementing <em>incoming</em> <a href="#eto/seq">seq</a> in their <a href="#eto/payload" class="type">eto/payload</a> (<a href="#eto/seq">more about sequences</a>).
         </li>
       </ol>
+      </p>
+      <h3>seto vs. eto</h3>
+      <p>
+      eto/* definitions are related to the transport layer to the Smarkets API. This provides a <a href="#eto/seq" class="type">sequenced</a> based messaging protocol similar to that of the <a href="http://www.fixprotocol.org/">Financial Information eXchange (FIX) Transport Protocol</a>.
+      </p>
+      <p>
+      seto/* refers to Smarkets application specific definitions that wrap <a href="#eto/payload" class="type">eto/payloads</a>. If a <a href="#seto/payload" class="type">seto/payload</a> is sent which <a href="#seto/payload-type" class="type">payload-type</a> <code>eto</code> then there is no Smarkets API extension to eto in the given payload and only the wrapped <a href="#eto/payload" class="type">eto/payloads</a> is processed.
       </p>
 
       <h2 id="encode">Encoding Payloads</h2>
       <p>
-      All <a href="#payload">payloads</a> are encoded into bytes compatible with <a href="http://code.google.com/p/protobuf/">Protocol Buffers</a> before being <a href="#framing">framed</a> and sent. How you do this will depend on the language you're using to communicate with Smarkets' servers. Go to the <a href="http://smarkets.github.com/">smarkets.github.com</a> downloads section to find the .proto or .piqi files, or use one of the available SDKs that will automatically do this for you.
+      All <a href="#seto/payload">seto/payloads</a> are encoded into bytes compatible with <a href="http://code.google.com/p/protobuf/">Protocol Buffers</a> before being <a href="#framing">framed</a> and sent. How you do this will depend on the language you're using to communicate with Smarkets' servers. Go to the <a href="http://smarkets.github.com/">smarkets.github.com</a> downloads section to find the .proto or .piqi files, or use one of the available SDKs that will automatically do this for you.
       </p>
       
       <h2 id="framing">Framing</h2>
@@ -193,15 +200,6 @@
       <h2 id="defs">Type Definitions</h2>
       {% for module in modules %}
       <div id="{{ module.name }}">
-      {% ifequal module.name "eto" %}
-      <h2>eto</h2>
-      <p>
-      eto/* are definitions for the transport layer to the Smarkets API.
-      </p>
-      <p>
-      seto/* refers to Smarkets application specific definitions which wrap <a href="#eto/payload" class="type">eto/payloads</a> to provide a <a href="#eto/seq" class="type">sequenced</a> bassed messaging protocol.
-      </p>
-      {% endifequal %}
       {% for pdef in module.def %}
       {% with def=pdef.def %}
       {% if not def.name %}
