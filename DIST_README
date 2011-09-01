@@ -1,1 +1,17 @@
 http://smarkets.github.com/
+
+This archive contains:
+
+= eto.piqi.proto + seto.piqi.proto =
+
+Protocol Buffers definitions to communicate with the Smarkets API in a number of languages
+see: http://code.google.com/p/protobuf/
+
+= eto.piqi + seto.piqi =
+
+Piqi definitions to communicate with the Smarkets API with OCaml and Erlang
+see: http://piqi.org/
+
+= docs =
+
+A snapshot of the docs from http://smarkets.github.com/ for the API definitions distributed in this archive
