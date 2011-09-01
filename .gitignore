@@ -1,7 +1,7 @@
 build
+smk_api_docs*
 deps
 priv/*.json
 ebin
 .DS_Store
 site
-*.tar.gz
