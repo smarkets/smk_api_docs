@@ -26,6 +26,8 @@ prep(Vsn) ->
       {custom_tags_dir, priv_dir()}
     ]),
 
+  {EtoVsn, SetoVsn} = get_piqi_vsns(),
+
   SetoSpec = atomize(seto, jsx:json_to_term(SetoBin)),
   SetoPiqDef = proplists:get_value(piqdef, SetoSpec),
 
@@ -39,11 +41,32 @@ prep(Vsn) ->
     {version, Vsn},
     {eto_order, [proplists:get_value(name, proplists:get_value(def, DefDef)) || DefDef <- SortedEtoPiqDef]},
     {seto_order, [proplists:get_value(name, proplists:get_value(def, DefDef)) || DefDef <- SortedSetoPiqDef]},
+    {eto_vsn, EtoVsn},
+    {seto_vsn, SetoVsn},
     {modules, [
         [{name,"seto"},{def,SortedSetoPiqDef}],
         [{name,"eto"},{def,SortedEtoPiqDef}]
       ]}
   ].
+
+get_piqi_vsns() ->
+  {ok, RebarConfig} = file:consult("rebar.config"),
+  Deps = proplists:get_value(deps, RebarConfig),
+  {
+    case lists:keyfind(eto_common, 1, Deps) of
+      {eto_common,_,{git,_,{tag,EtoVsn}}} ->
+        EtoVsn;
+      _ ->
+        "HEAD"
+    end,
+    case lists:keyfind(smk_api_common, 1, Deps) of
+      {smk_api_common,_,{git,_,{tag,SetoVsn}}} ->
+        SetoVsn;
+      _ ->
+        "HEAD"
+    end
+  }.
+
 
 %extend(Extend, Defs) ->
 %  [Name] = proplists:get_value(name,Extend),

@@ -1,6 +1,6 @@
 .PHONY: deps
 
-VSN=dev
+VSN=HEAD
 NAME_PREFIX=smk_api_docs
 NAME=$(NAME_PREFIX)-$(VSN)
 

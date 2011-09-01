@@ -11,3 +11,5 @@ To generate a copy of the docs with the version set to a specific version edit r
 To generate smk_api_docs-VSN.tar.gz edit rebar.conf to grab the correct version'd dependancies and type:
 
     make dist VSN=0.1.2
+
+When building distributed documentation the rebar dependency entries for smk_api_common and eto_common need be {tag,"VSN"} where VSN is a semantic versioned tag the docs should be made built for. These version numbers will be rendered next to the "seto" and "eto" links in the menu on the left.

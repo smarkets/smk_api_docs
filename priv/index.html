@@ -12,18 +12,19 @@
       <h1><a href="http://smarkets.github.com/"><img src="logo.gif" class="logo" /></a>
           <a href=""><span>Streaming API Documentation</span></a></h1>
       <ul>
-        <li><strong>{{ version }}</strong></li>
+        <li><strong>({{ version }})</strong></li>
         <li><a href="">Introduction</a></li>
         <li><a href="#encode">Encoding Payloads</a></li>
         <li><a href="#framing">Framing</a></li>
         <li>
           <div style="margin-bottom:0.5em;"><a href="#defs">Type Definitions</a></div>
+          <a href="#seto">seto</a> {% if seto_vsn %}({{ seto_vsn }}){% endif %}
           <ul>
             {% for name in seto_order %}
             <li><a href="#seto/{{ name }}">{{ name }}</a></li>
             {% endfor %}
           </ul>
-          <a href="#eto">eto</a>
+          <a href="#eto">eto</a> {% if eto_vsn %}({{ eto_vsn }}){% endif %}
           <ul>
             {% for name in eto_order %}
             <li><a href="#eto/{{ name }}">{{ name }}</a></li>
