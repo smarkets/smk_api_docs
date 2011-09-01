@@ -30,7 +30,7 @@ It can also be sent in a <a href="#seto/payload" class="type">payload</a> itself
 <code><pre>
 contract_quotes{
   contract = ...,
-  buy = [
+  bids = [
     quote{
       price = 5000,
       quantity = 200000
@@ -78,13 +78,13 @@ contract_quotes{
 <code><pre>
 contract_quotes{
   contract = ...,
-  buy = [
+  bids = [
     quote{
       price = 4500,
       quantity = 400000
     }
   ],
-  sell = [
+  offers = [
     quote{
       price = 5000,
       quantity = 300000
@@ -93,7 +93,8 @@ contract_quotes{
   executions = [
     execution{
       price = 5000,
-      quantity = 100000
+      quantity = 100000,
+      liquidity = buy
     }
   ]
 }
@@ -139,12 +140,12 @@ contract_quotes{
       <td colspan="10">
         <ul>
           <li class="event">A buy order at 51% comes in that takes a price improvement causing all the 50% to get matched along with a portion of the available 51% quantity.</li>
-          <li class="event">There is no more liquidity worse than 54% on the buy side (sells available to be taken)</li>
+          <li class="event">There is no more liquidity worse than 54% on the buy side (offers)</li>
         </ul>
 <code><pre>
 contract_quotes{
   contract = ...,
-  sell = [
+  offers = [
     quote{
       price = 5100,
       quantity = 20000
@@ -153,11 +154,13 @@ contract_quotes{
   executions = [
     execution{
       price = 5000,
-      quantity = 300000
+      quantity = 300000,
+      liquidity = sell
     },
     execution{
       price = 5100,
-      quantity = 280000
+      quantity = 280000,
+      liquidity = sell
     }
   ]
 }
@@ -200,7 +203,7 @@ contract_quotes{
 <code><pre>
 contract_quotes{
   contract = ...,
-  sell = [
+  offers = [
     quote{
       price = 4800,
       quantity = 0
