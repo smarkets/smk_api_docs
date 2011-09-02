@@ -1,5 +1,5 @@
 <p>
-After subscribing to a market by sending a <a href="#seto/market-subscription" class="type">market-subscription</a> payload the <span class="field">last-execution</span> for each <a href="#seto/contract-quotes" class="type">contract-quotes</a> in the initial <a href="#seto/market-quotes" class="type">market-quotes</a> snapshot will be defined.
+After subscribing to a market by sending a <a href="#seto/market-subscribe" class="type">market-subscribe</a> payload the <span class="field">last-execution</span> for each <a href="#seto/contract-quotes" class="type">contract-quotes</a> in the initial <a href="#seto/market-quotes" class="type">market-quotes</a> snapshot will be defined.
 </p>
 <p>
 For each separate <a href="#seto/contract-quotes" class="type">contract-quotes</a> payload sent during regular market update behaviour <em>after the initial <span class="type">market-quotes</span> snapshot</em> each <span class="type">execution</span> in the <a href="#seto/execution" class="type">executions</a> will represent the executions that resulted in the updated <a href="#seto/quote" class="type">quotes</a>.
