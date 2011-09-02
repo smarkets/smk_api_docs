@@ -12,7 +12,7 @@
       <h1><a href="http://smarkets.github.com/"><img src="logo.gif" class="logo" /></a>
           <a href=""><span>Streaming API Documentation</span></a></h1>
       <ul>
-        <li><strong>({{ version }})</strong></li>
+        <li><strong>(v{{ version }})</strong></li>
         <li><a href="">Introduction</a></li>
         <li><a href="#encode">Encoding Payloads</a></li>
         <li><a href="#framing">Framing</a></li>
@@ -42,7 +42,7 @@
       To work with the Smarkets Streaming API you will need to:
       <ol class="steps">
         <li>
-        Create a persistent TCP connection to <code>api-dev.corp.smarkets.com:3701</code>
+        Create a persistent TCP connection to <code>api-sandbox.smarkets.com:3701</code>
         </li>
         <li>
         <a href="#encode">Encode</a>, <a href="#framing">Frame</a>, and send a <a href="#seto/payload" class="type">seto/payload</a> with type <a href="#seto/login" class="type">login</a> and its <a href="#eto/payload" class="type">eto/payload</a> with <a href="#eto/seq">seq</a> <span class="seq">1</span>
