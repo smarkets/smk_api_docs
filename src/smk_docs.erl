@@ -38,7 +38,10 @@ prep(Vsn) ->
   SortedEtoPiqDef = lists:sort(fun sort/2, EtoPiqDef),
 
   [
-    {version, Vsn},
+    {version, case Vsn of
+      "HEAD" -> "HEAD";
+      Vsn -> [$v,Vsn]
+    end},
     {eto_order, [proplists:get_value(name, proplists:get_value(def, DefDef)) || DefDef <- SortedEtoPiqDef]},
     {seto_order, [proplists:get_value(name, proplists:get_value(def, DefDef)) || DefDef <- SortedSetoPiqDef]},
     {eto_vsn, EtoVsn},
