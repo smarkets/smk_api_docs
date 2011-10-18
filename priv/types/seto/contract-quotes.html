@@ -33,7 +33,7 @@ contract_quotes{
   bids = [
     quote{
       price = 5000,
-      quantity = 200000
+      quantity = 100000
     }
   ]
 }
@@ -82,6 +82,10 @@ contract_quotes{
     quote{
       price = 4500,
       quantity = 400000
+    },
+    quote{
+      price = 5000,
+      quantity = 0
     }
   ],
   offers = [
@@ -100,7 +104,8 @@ contract_quotes{
 }
 </pre></code>
         <ul>
-        <li class="event">Get rid of 50% available for a seller to take due to receiving 1 worse price from outside the depth size.</li>
+          <li class="event">Get rid of 50% available for a seller to take due to receiving 1 worse price from outside the depth size and 
+          a new 5000 quantity of 0.</li>
         <li class="event">Move prices over to fill in where 50% used to live and add the 45% we were just told.</li>
         <li class="event">
           Push over the worse sell quotes to the left and fit in the 50% available for someone to buy.
@@ -147,6 +152,10 @@ contract_quotes{
   contract = ...,
   offers = [
     quote{
+      price = 5000,
+      quantity = 0
+    },
+    quote{
       price = 5100,
       quantity = 20000
     }
@@ -166,7 +175,7 @@ contract_quotes{
 }
 </pre></code>
         <ul>
-          <li class="event">Remove 50% due to execution and an extra price coming in from outside the depth size of 5.</li>
+          <li class="event">Remove 50% due to execution, a new quantity of 0, and an extra price coming in from outside the depth size of 5.</li>
           <li class="event">Update 51% to quantity 20000</li>
         </ul>
       </td>
@@ -203,7 +212,7 @@ contract_quotes{
 <code><pre>
 contract_quotes{
   contract = ...,
-  offers = [
+  bids = [
     quote{
       price = 4800,
       quantity = 0
