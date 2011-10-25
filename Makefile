@@ -9,7 +9,7 @@ all: json proto
 	./docs.escript $(VSN)
 
 deps:
-	./rebar get-deps
+	./rebar get-deps update-deps
 
 compile: deps
 	./rebar compile
