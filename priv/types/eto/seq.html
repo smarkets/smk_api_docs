@@ -73,7 +73,7 @@ When a connection is first made <a href="#eto/login" class="type">login</a> and 
 </table>
 
 <p>
-This simple example is basically a payload and an *ack* style response, but once this initial step has taken place many incoming and outgoing payload can be sent potentially without any payload based acknowledgement. Acknowledgement is done by comparing the incoming message's sequence with the expected incoming sequence. If a process in your application performing a state transition based on an incoming payload crashes then you want to maintain that you have <em>not</em> processed that sequence number. To do this the expected next incoming sequence number should not be incremented, and when the next payload is received it will be incorrect by 1 step. To handle these cases a payload with type <a href="#eto/replay" class="type">replay</a> is sent.
+This simple example is basically a payload and an *ack* style response, but once this initial step has taken place many incoming and outgoing payload can be sent potentially without any payload based acknowledgement. Acknowledgement is done by comparing the incoming message's sequence with the expected incoming sequence. If a process in your application performing a state transition based on an incoming payload crashes then you want to maintain that you have <em>not</em> processed that sequence number. To do this the expected next incoming sequence number should not be incremented, and when the next payload is received it will be increment by 1 step. To handle these cases a payload with type <a href="#eto/replay" class="type">replay</a> is sent.
 </p>
 
 <p>
