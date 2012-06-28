@@ -1,0 +1,14 @@
+<p>
+When the <span class="type">eto/downtime-alert-type</span> of a <a href="#eto/downtime-alert" class="type">eto/downtime-alert</a> is 
+set to <span class="type">functionality</span> then this <a href="#seto/payload" class="type">seto/payload</a> and type will also be specified.
+</p>
+<p>
+The only current functionality downtime is related to order placement and is specified as the <a href="#seto/downtime-alert-type">seto/downtime-alert-type</a> 
+<span class="type">order-create</span>. Orders will automatically be rejected with reason <span class="type">service-temporarily-unavailable</span> 
+during this downtime until service is resumed via another <a href="#eto/downtime-alert" class="type">eto/downtime-alert</a> with type 
+<span class="type">service-resumed</span>.
+</p>
+<p>
+For the expected datetime of the downtime the <a href="#eto/downtime-alert" class="type">eto/downtime-alert</a>'s 
+<span class="type">datetime</span> field should be consulted.
+</p>
