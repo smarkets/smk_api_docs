@@ -20,3 +20,25 @@ with cancelled downtime alerts.
 A <span class="type">service-resumed</span> <a href="#eto/downtime-alert-type" class="type">eto/downtime-alert-type</a> signifies that 
 normal service has resumed and the previous downtime-alert should now be disregarded.
 </p>
+<p>
+The expected scheduled series of events can be any of the following:
+</p>
+<ol>
+  <li>Smarkets sends a downtime-alert</li>
+  <li>
+  At the datetime <strong>one</strong> of the following can occur:
+  <ol>
+    <li>If the downtime is of type <span class="type">functionality</span> and the first alert had a specific datetime 
+    then  a second downtime-alert exactly like the first is sent but this time with no datetime field specific, 
+    signifying the immediate downtime of the functionality specified.</li>
+    <li><em>... downtime occurs ...</em></li>
+    <li>A third downtime-alert is sent with type <span class="type">service-resumed</span> signifying normal service.</li>
+  </ol>
+  or
+  <ol>
+    <li>If the downtime is of type <span class="type">connection</span> all tcp connections are disconnected.</li>
+    <li><em>... downtime occurs ...</em></li>
+    <li>TCP acceptors are restarted and no further downtime alert is sent and service is considered resumed.</li>
+  </ol>
+  </li>
+</ol>
