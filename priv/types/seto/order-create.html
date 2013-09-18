@@ -8,5 +8,5 @@ To prevent your application from accidently creating more orders than it really 
 <strong>quantity is *not* stake</strong> - quantity is the sum of both sides of the trade in minor units * 100. For example, a buy order of £10 stake at 25% would have quantity of 400000. Which is (1000[minor-units] / 0.25[price]) * 100. The sell trade to fully match this at the same price is exactly the same price and quantity, but with the side field set to buy.
 </p>
 <p>
-<em>If the <a href="#eto/seq" class="type">seq</a> for the <a href="#eto/payload" class="type">eto/payload</a> sent along with the <a href="#seto/payload" class="type">seto/payload</a> with type <span class="type">order-create</span> has a different outgoing <a href="#eto/seq" class="type">seq</a> number then <strong>it will result in a new order being created</strong>.</em>
+<strong>reference</strong> is an unsigned 64bit integer that can optionally be set by the client. This reference will be returned to the client in <a href="#seto/order-accepted" class="type">order-accepted</a>, <a href="#seto/order-rejected" class="type">order-rejected</a>, or <a href="#seto/order-invalid" class="type">order-invalid</a>.
 </p>

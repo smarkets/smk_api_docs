@@ -1,3 +1,9 @@
 <p>
 To login to the API specify just the <span class="field">username</span> and <span class="field">password</span> fields.
 </p>
+
+<p><strong>account-sequence</strong>: every event on a smarkets account is assigned an incremental sequence number. account-sequence is passed to the client in <a href="#seto/order-accepted" class="type">order-accepted</a>, <a href="#seto/order-rejected" class="type">order-rejected</a>, <a href="#seto/order-invalid" class="type">order-invalid</a>, <a href="#seto/order-cancelled" class="type">order-cancelled<a>, <a href="#seto/order-cancelled-rejected" class="type">order-cancelled-rejected</a>.</p>
+
+<p>If for any reason a client gets disconnected, the client can re-login and set the account-sequence field. The api will resend all messages from the account-sequence on.<br />
+<u>Note:</u> the replay stream is bounded. You won't be able to replay old messages.
+</p>
