@@ -22,17 +22,18 @@ prep(Vsn) ->
   {ok, EtoBin} = file:read_file(priv_dir("eto.json")),
   {ok, SetoBin} = file:read_file(priv_dir("seto.json")),
 
-  ok = erlydtl:compile(priv_dir("index.html"), index_tpl, [
-      {custom_tags_dir, priv_dir()}
-    ]),
+  {ok, index_tpl} = erlydtl:compile(priv_dir("index.html"),
+                                    index_tpl,
+                                    [{custom_tags_dir, priv_dir()},
+                                     {auto_escape, false}]),
 
   {EtoVsn, SetoVsn} = get_piqi_vsns(),
 
-  SetoSpec = atomize(seto, jsx:json_to_term(SetoBin)),
-  SetoPiqDef = proplists:get_value(piqdef, SetoSpec),
+  SetoSpec = atomize(seto, jsx:decode(SetoBin)),
+  SetoPiqDef = proplists:get_value(typedef, SetoSpec),
 
-  EtoSpec = atomize(eto, jsx:json_to_term(EtoBin)),
-  EtoPiqDef = proplists:get_value(piqdef, EtoSpec),
+  EtoSpec = atomize(eto, jsx:decode(EtoBin)),
+  EtoPiqDef = proplists:get_value(typedef, EtoSpec),
 
   SortedSetoPiqDef = lists:sort(fun sort/2, SetoPiqDef),
   SortedEtoPiqDef = lists:sort(fun sort/2, EtoPiqDef),

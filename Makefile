@@ -1,10 +1,11 @@
 .PHONY: deps
 
+PIQI?=./deps/piqi/priv/bin/piqi
 VSN=HEAD
 NAME_PREFIX=smk_api_docs
 NAME=$(NAME_PREFIX)-$(VSN)
 
-all: json proto
+all: json
 	mkdir -p build
 	./docs.escript $(VSN)
 
@@ -15,18 +16,14 @@ compile: deps
 	./rebar compile
 
 json: compile
-	piqi convert \
+	$(PIQI) convert \
 		-f piqi -t json \
 		deps/eto_common/eto.piqi \
 		priv/eto.json
-	piqi convert -I deps/eto_common/ \
+	$(PIQI) convert -I deps/eto_common/ \
 		-f piqi -t json \
 		deps/smk_api_common/seto.piqi \
 		priv/seto.json
-
-proto: deps
-	cd deps/smk_api_common/ && make proto
-	cd deps/eto_common/ && make proto
 
 distclean:
 	rm -rf $(NAME_PREFIX)*
