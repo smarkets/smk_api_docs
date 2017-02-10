@@ -160,9 +160,13 @@ code pre {
 .default {
   font-style: italic;
 }
-.optional {
+.optional, .repeated {
   font-style: italic;
   color: #444;
+}
+
+.required {
+    color: darkred;
 }
 
 table.passing {

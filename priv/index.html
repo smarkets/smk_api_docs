@@ -214,7 +214,7 @@
           <span class="name">{{ module.name }}/{{ def.name }}</span>
           <span class="piqi_type">{{ pdef.piqi_type }}</span>
           {% if pdef.piqi_type=="list" or pdef.piqi_type=="alias" %}
-          {% type name=def.type.name module=def.type.module %}
+          {% type name=def.type module=module.name %}
           {% endif %}
         </h4>
 
@@ -223,14 +223,16 @@
           {% for field in def.field %}
           <li>
           <span class="name">{% firstof field.name field.type.name %}</span>
-          {% type name=field.type.name module=field.type.module %}
+          {% type name=field.type module=module.name mode=field.mode %}
           {% if field.default %}
-          <span class="default">Default: {{ field.default.value }}</span>
+          <span class="default">Default: {{ field.default }}</span>
           {% endif %}
-          {% if field.mode and field.mode.optional %}
-          <span class="optional">[optional]</span>
+          {% if field.mode %}
+          <span class="{{ field.mode }}">[{{ field.mode }}]</span>
           {% endif %}
           </li>
+
+
           {% endfor %}
         </ul>
         {% endifequal %}
